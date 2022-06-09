@@ -3,7 +3,7 @@
 
 #include <string>
 #include "../Players/Player.h"
-#include "utilities.h"
+#include "../utilities.h"
 
 //Add define for the 10 hp points in fairy!!
 
@@ -38,7 +38,7 @@ public:
      * @return
      *      void
     */
-    virtual void applyEncounter(Player& player) const;
+    virtual void applyEncounter(Player& player) const=0;
 
 
     /*
@@ -111,7 +111,7 @@ class MonsterCards : public Card {
     //apply encounter function
     //print card info function
     
-private:
+protected:
     int m_force;    
     int m_loot;
     int m_hpLossOnDefeat;
