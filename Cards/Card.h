@@ -23,12 +23,11 @@ public:
     /*
      * C'tor of Card class
      *
-     * @param type - The type of the card.
-     * @param stats - The numeral stats of the card.
+     * Receives no parameters.
      * @return
-     *      A new instance of Card.
+     *      A general instance of Card, with the name "Card."
     */
-    Card(CardType type, const CardStats& stats);
+    Card();
 
 
     /*

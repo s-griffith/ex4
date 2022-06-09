@@ -6,10 +6,9 @@
 //Change Functions used after implement the different types of cards. Need to see more what each one does/has.
 
 //Constructor for Card
-Card::Card(CardType type, const CardStats& stats)
+Card::Card()
 {
-    m_effect = type;
-    m_stats = stats;
+    m_name = "Card";
 }
 
 //Encounter a card - play the card according to its type.
