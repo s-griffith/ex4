@@ -1,10 +1,11 @@
 #include "Vampire.h"
 #include "../Player.h"
 
-//Constructor:
+//Constructor
 Vampire::Vampire() : m_name("Vampire"), m_force(VAMPIRE_FORCE), m_hpLossOnDefeat(VAMPIRE_HP_LOSS), m_loot(VAMPIRE_LOOT) 
 {}
 
+//Apply Encounter Function
 void Vampire::applyEncounter(Player& player) const 
 {
     bool win = (player.getAttackStrength() >= m_force);

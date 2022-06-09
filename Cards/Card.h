@@ -5,8 +5,7 @@
 #include "../Players/Player.h"
 #include "../utilities.h"
 
-//Add define for the 10 hp points in fairy!!
-
+//Check if they want us to create operator << for printing
 
 /*
  *  CardType:
@@ -106,7 +105,7 @@ struct CardStats{
 class MonsterCards : public Card {
     public:
     //general apply encounter function?
-    virtual void applyEncounter(Player& player) const override=0;
+    virtual void applyEncounter(Player& player) const override;
 
     void printInfo(std::ostream &os) const override;
     
