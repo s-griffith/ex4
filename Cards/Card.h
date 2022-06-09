@@ -50,7 +50,7 @@ public:
 
 
     /*
-     * C'tor to the "default card" - Treasure card that gives 0 coins
+     * C'tor to the "default card" - Treasure card that gives 0 coins - Check if still need this default card!!
     */
     Card(): m_effect(CardType::Treasure), m_stats() {}
 
@@ -105,8 +105,10 @@ struct CardStats{
 
 class MonsterCards : public Card {
     public:
-    //apply encounter function
-    //print card info function
+    //general apply encounter function?
+    virtual void applyEncounter(Player& player) const override=0;
+
+    void printInfo(std::ostream &os) const override;
     
 protected:
     int m_force;    

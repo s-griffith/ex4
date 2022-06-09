@@ -46,3 +46,10 @@ void Card::printInfo(std::ostream &os) const
 {
     printCardDetails(os, m_name);
 }
+
+void MonsterCards::printInfo(std::ostream &os) const
+{
+    bool isDragon = (m_name == "Dragon");
+    printCardDetails(os, m_name);
+    printMonsterDetails(os, m_force, m_hpLossOnDefeat, m_loot, isDragon);
+}
