@@ -42,21 +42,8 @@ void Card::applyEncounter(Player& player) const
     }
 }
 
-//Print card information based on its type.
-void Card::printInfo() const
+//Print general card information: name
+void Card::printInfo(std::ostream &os) const
 {
-    switch (m_effect) {
-        case CardType::Battle: 
-            printBattleCardInfo(m_stats);
-            break;
-        case CardType::Buff:
-            printBuffCardInfo(m_stats);
-            break;
-        case CardType::Heal:
-            printHealCardInfo(m_stats);
-            break;
-        case CardType::Treasure:
-            printTreasureCardInfo(m_stats);
-            break;
-    }
+    printCardDetails(os, m_name);
 }

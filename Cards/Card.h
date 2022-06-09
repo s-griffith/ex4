@@ -47,7 +47,7 @@ public:
      * @return
      *      void
     */
-    virtual void printInfo() const;
+    virtual void printInfo(std::ostream &os) const;
 
 
     /*
@@ -64,10 +64,8 @@ public:
     Card& operator=(const Card& other) = default;
 
 
-private:
-//No need for any of these!
-    CardType m_effect;
-    CardStats m_stats;
+protected:
+    std::string m_name;
 
 };
 

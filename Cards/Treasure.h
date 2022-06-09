@@ -7,9 +7,14 @@ const int TREASURE_LOOT = 10;
 
 class Treasure : public Card {
 public:
-    
-    //functions: applyencounter with printTreasureMessage at the end, print?
-    //No need for internal fields it looks like, because the loot is in a define
+    Treasure();
+    ~Treasure() = default;
+    //Treasure has no internal fields, or data changes, so we'll forbid the use of a copy constructor
+    Treasure(const int&) = delete;
+
+    void applyEncounter(Player& player) const override;
+
+    //It doesn't look like we need anything else here, but maybe check again later. For print, can use the regular print function in the Card class.
 };
 
 #endif //EX4_TREASURE_H
