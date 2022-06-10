@@ -11,20 +11,6 @@ Card::Card()
     m_name = "Card";
 }
 
-//Encounter a card - play the card according to its type.
-void Card::applyEncounter(Player& player) const
-{
-    //Checks if the player has enough coins to pay. Performs the required actions accordingly.
-    if (player.pay(m_stats.cost)) {
-        if (m_effect == CardType::Heal) {
-            player.heal(m_stats.heal);
-        }
-        else {
-            player.buff(m_stats.buff);
-        }
-    }
-}
-
 //Print general card information: name
 void Card::printInfo(std::ostream &os) const
 {
