@@ -7,6 +7,10 @@
 
 //Check if they want us to create operator << for printing
 
+/*
+ *  Card Class:
+ *  This class represents a single card in the game.
+*/
 class Card {
 public:
     /*
@@ -18,6 +22,12 @@ public:
     */
     Card();
 
+    /*
+     * Here we are explicitly telling the compiler to use the default methods
+    */
+    Card(const Card&) = default;
+    virtual ~Card() = default;
+    Card& operator=(const Card& other) = default;
 
     /*
      * Handling the player's applyEncounter with the card:
@@ -28,7 +38,6 @@ public:
     */
     virtual void applyEncounter(Player& player) const=0;
 
-
     /*
      * Prints the card info:
      *
@@ -37,24 +46,11 @@ public:
     */
     virtual void printInfo(std::ostream &os) const;
 
-
-    /*
-     * C'tor to the "default card" - Treasure card that gives 0 coins - Check if still need this default card!!
-    */
-    Card(): m_effect(CardType::Treasure), m_stats() {}
-
-
-    /*
-     * Here we are explicitly telling the compiler to use the default methods
-    */
-    Card(const Card&) = default;
-    virtual ~Card() = default;
-    Card& operator=(const Card& other) = default;
-
-
 protected:
+    /*
+     * An internal field that holds the name of the type of card
+    */    
     std::string m_name;
-
 };
 
 

@@ -11,7 +11,6 @@ Card::Card()
     m_name = "Card";
 }
 
-//Print general card information: name
 void Card::printInfo(std::ostream &os) const
 {
     printCardDetails(os, m_name);

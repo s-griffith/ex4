@@ -9,7 +9,7 @@ const int FORCE_BOOST_COST = 10;
 const int FORCE_BOOST = 1;
 
 /*
- *  Merchan Card Class:
+ *  Merchant Card Class:
  *  This class represents a single Merchant card.
  *  Cards of this type allow players to buy boosts to their HP or force.
 */
