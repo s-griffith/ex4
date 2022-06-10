@@ -102,6 +102,7 @@ struct CardStats{
     }
 };
 
+
 /*
  *  Monster Cards Class:
  *  This class represents a single type of Monster card: Vampire, Goblin, or Dragon.
@@ -157,11 +158,13 @@ protected:
     int m_hpLossOnDefeat;
 };
 
+
+//Might not need the bool and/or this class at all
 class BoostCards : public Card {
 public:
     //which functions?
 
-private:
+protected:
     bool m_add; //true: adds 10 hp, false: subtracts 10 hp
 };
 

@@ -2,7 +2,12 @@
 #include "../Players/Player.h"
 
 //Constructor
-Dragon::Dragon() : m_name("Dragon"), m_force(DRAGON_FORCE), m_loot(DRAGON_LOOT) {}
+Dragon::Dragon()
+{
+    m_name = "Dragon";
+    m_force = DRAGON_FORCE;
+    m_loot = DRAGON_LOOT;
+}
 
 //Apply Encounter Function
 void Dragon::applyEncounter(Player& player) const

@@ -2,7 +2,11 @@
 #include "../Players/Player.h"
 
 //Constructor
-Pitfall::Pitfall() : m_name("Pitfall"), m_add(false) {}
+Pitfall::Pitfall() 
+{
+    m_name = "Pitfall";
+    m_add = false;
+}
 
 //Apply Encounter Function
 void Pitfall::applyEncounter(Player& player) const

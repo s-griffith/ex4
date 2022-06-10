@@ -2,7 +2,11 @@
 #include "../Players/Player.h"
 
 //Constructor
-Fairy::Fairy() : m_name("Fairy"), m_add(true) {}
+Fairy::Fairy()
+{
+    m_name = "Fairy";
+    m_add = true;
+}
 
 //Apply Encounter Function
 void Fairy::applyEncounter(Player& player) const
