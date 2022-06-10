@@ -4,6 +4,7 @@
 #include <iostream>
 
 //On Piazza - they wrote that everything prints to std::cout
+//Need to catch exceptions from getline and stoi functions. Check this.
 void Merchant::applyEncounter(Player& player) const
 {
     printMerchantInitialMessageForInteractiveEncounter(std::cout, player.m_name, player.m_coins);
