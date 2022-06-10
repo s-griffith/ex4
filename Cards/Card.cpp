@@ -5,7 +5,6 @@
 
 //----------------------------------Card Class Functions----------------------------------
 
-//Constructor for Card
 Card::Card()
 {
     m_name = "Card";
@@ -14,6 +13,15 @@ Card::Card()
 void Card::printInfo(std::ostream &os) const
 {
     printCardDetails(os, m_name);
+}
+
+
+//----------------------------------Card Class Non-Member Function----------------------------------
+
+std::ostream& operator<<(std::ostream& os, const Card& card)
+{
+    card.printInfo(os);
+    return os;
 }
 
 
@@ -38,4 +46,13 @@ void MonsterCards::applyEncounter(Player& player) const
         player.damage(m_hpLossOnDefeat);
         printLossBattle(player.m_name, m_name);
     }
+}
+
+
+//----------------------------------MonsterCards Class Functions----------------------------------
+
+std::ostream& operator<<(std::ostream& os, const MonsterCards& card)
+{
+    card.MonsterCards::printInfo(os);
+    return os;
 }

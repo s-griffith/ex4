@@ -46,13 +46,22 @@ public:
     */
     virtual void printInfo(std::ostream &os) const;
 
+    /*
+     * Overrides the operator << for printing card data:
+     *
+     * @param os - The output path
+     * @param card - The card
+     * @return
+     *      os
+    */
+    friend std::ostream& operator<<(std::ostream& os, const Card& card);
+
 protected:
     /*
      * An internal field that holds the name of the type of card
     */    
     std::string m_name;
 };
-
 
 /*
  *  Monster Cards Class:
@@ -96,6 +105,16 @@ public:
      *      void
     */
     void printInfo(std::ostream &os) const override;
+
+    /*
+     * Overrides the operator << for printing monster card data:
+     *
+     * @param os - The output path
+     * @param card - The card
+     * @return
+     *      os
+    */
+    friend std::ostream& operator<<(std::ostream& os, const MonsterCards& card);
 
 protected:
     /*
