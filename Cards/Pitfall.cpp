@@ -5,7 +5,6 @@
 Pitfall::Pitfall() 
 {
     m_name = "Pitfall";
-    m_add = false;
 }
 
 //Apply Encounter Function

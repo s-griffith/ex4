@@ -5,7 +5,6 @@
 Barfight::Barfight()
 {
     m_name = "Barfight";
-    m_add = false;
 }
 
 //Apply Encounter Function

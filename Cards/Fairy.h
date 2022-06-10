@@ -9,7 +9,7 @@ const int HP_GAIN = 10;
  *  Fairy Card Class:
  *  This class represents a single Fairy card.
 */
-class Fairy : public BoostCards {
+class Fairy : public Card {
 public:
     /*
      * Constructor of Fairy class

@@ -5,7 +5,6 @@
 Fairy::Fairy()
 {
     m_name = "Fairy";
-    m_add = true;
 }
 
 //Apply Encounter Function

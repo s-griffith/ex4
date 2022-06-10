@@ -10,7 +10,7 @@ const int HP_LOSS = 10;
  *  This class represents a single Pitfall card.
  *  Cards of this type represent a player's falling into a pit and its consequences.
 */
-class Pitfall : public BoostCards {
+class Pitfall : public Card {
 public:
     /*
      * Constructor of Pitfall class

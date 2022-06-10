@@ -10,7 +10,7 @@ const int HP_LOSS = 10;
  *  This class represents a single Barfight card.
  *  Cards of this type represent a player's involvement in a bar fight and its consequences.
 */
-class Barfight : public BoostCards {
+class Barfight : public Card {
 public:
     /*
      * Constructor of Barfight class
