@@ -3,18 +3,18 @@
 
 #include <iostream>
 
-//Need access to output stream and input stream! How to make this work? On Piazza - they wrote that everything prints to std::cout
-//Supposed to use getline and stoi; need input and output stream for that too.
-//Will likely become clearer after creating Mtmchkin class
+//On Piazza - they wrote that everything prints to std::cout
 void Merchant::applyEncounter(Player& player) const
 {
     printMerchantInitialMessageForInteractiveEncounter(std::cout, player.m_name, player.m_coins);
-    int input;
+    std::string initialInput;
     int cost;
-    std::cin >> input;
+    std::getline(std::cin, initialInput);
+    int input = std::stoi(initialInput);
     while (input != 0 && input != 1 && input != 2) {
         printInvalidInput();
-        std::cin >> input;
+        std::getline(std::cin, initialInput);
+        int input = std::stoi(initialInput);    
     }
     switch(input) {
         case 0:
