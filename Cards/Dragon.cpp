@@ -1,5 +1,5 @@
 #include "Dragon.h"
-#include "../Player.h"
+#include "../Players/Player.h"
 
 //Constructor
 Dragon::Dragon() : m_name("Dragon"), m_force(DRAGON_FORCE), m_loot(DRAGON_LOOT) {}

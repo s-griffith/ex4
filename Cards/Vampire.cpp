@@ -1,5 +1,5 @@
 #include "Vampire.h"
-#include "../Player.h"
+#include "../Players/Player.h"
 
 //Constructor
 Vampire::Vampire() : m_name("Vampire"), m_force(VAMPIRE_FORCE), m_hpLossOnDefeat(VAMPIRE_HP_LOSS), m_loot(VAMPIRE_LOOT) 

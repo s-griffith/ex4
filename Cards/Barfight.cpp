@@ -1,5 +1,5 @@
 #include "Barfight.h"
-#include "../Player.h"
+#include "../Players/Player.h"
 
 //Constructor
 Barfight::Barfight() : m_name("Barfight"), m_add(false) {}
