@@ -1,10 +1,33 @@
 #ifndef MTMCHKIN_H_
 #define MTMCHKIN_H_
 
-class Mtmchkin{
+#include "Exception.h"
+#include "Queue.h"
+#include "utilities.h"
 
+#include "Cards/Card.h"
+#include "Cards/Barfight.h"
+#include "Cards/Dragon.h"
+#include "Cards/Fairy.h"
+#include "Cards/Goblin.h"
+#include "Cards/Merchant.h"
+#include "Cards/Pitfall.h"
+#include "Cards/Treasure.h"
+#include "Cards/Vampire.h"
+
+#include "Players/Player.h"
+#include "Players/Fighter.h"
+#include "Players/Rogue.h"
+#include "Players/Wizard.h"
+
+#include <string>
+#include <iostream>
+#include <fstream>
+#include <limits>
+
+class Mtmchkin {
 public:
-    
+
     /*
     * C'tor of Mtmchkin class
     *
@@ -46,8 +69,12 @@ public:
     *          int - number of rounds played
     */
     int getNumberOfRounds() const;
-};
 
+private:
+    Queue<Card> m_deck;
+    Queue<Player> m_players;
+    int m_numRounds;
+};
 
 
 #endif /* MTMCHKIN_H_ */
