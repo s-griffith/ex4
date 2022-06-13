@@ -1,13 +1,12 @@
 #include "Mtmchkin.h"
 
-//Left to do: Leaderboard (maybe array of pointers? rank for each player?)
-
 //------------------------------------------Additional Functions-------------------------------------
-Card* creationFactory();
+template <class Derived> //----------------------------------------------------------------------------------------------not sure if this line is needed up here
+std::unique_ptr<Card> creationFactory();
 std::queue<Card> createDeck(const std::ifstream& sourceFile);
 std::queue<std::shared_ptr<Player>> createPlayers();
 int receiveTeamSize();
-void receivePlayer(std::string *name, std::string *job);
+void receivePlayer(std::string& name, std::string& job);
 bool checkName(const std::string& givenName);
 bool checkJob(const std::string& givenJob);
 void printMessages(const bool validName, const bool validJob);
@@ -16,15 +15,18 @@ void printMessages(const bool validName, const bool validJob);
 
 Mtmchkin::Mtmchkin(const std::string fileName)
 {
-    //Check if file name valid
+    //Check if file name valid, throw appropriate error if not
     std::ifstream sourceFile(fileName);
     if (!sourceFile) {
         throw DeckFileNotFound();
     }
+    //Create card deck
     m_deck = std::move(createDeck(sourceFile));
+    //If the card deck is less than 5 cards, throw appropriate error
     if (m_deck.size() < 5) {
         throw DeckFileInvalidSize();
     }
+    //Create players + initiate number of rounds in game
     m_players = std::move(createPlayers());
     m_numRounds = 0;
 }
@@ -46,16 +48,19 @@ void Mtmchkin::playRound()
                 //Return card to back of deck
                 m_deck.push(currentCard);
             }
+            //If the player has reached max level, the player has won the game!
             if ((*currentPlayer).getLevel() == Player::MAX_LEVEL) {
                 m_winners.push_back(currentPlayer);
             }
+            //If the player is knocked out, the player has lost...
             else if ((*currentPlayer).isKnockedOut()) {
                 m_losers.insert(m_losers.begin(), currentPlayer);
             }
         }
+        //Count number of rounds completed in game
         m_numRounds++;
     }
-    if (isGameOver()) { //Maybe needs to be inside if(), depends if this function is called on a game that is over and the message is required or not
+    if (isGameOver()) { //-----------------------------------------------------------------------------------------------Maybe needs to be inside if(), depends if this function is called on a game that is over and the message is required or not
         printGameEndMessage();
     }
 }
@@ -83,6 +88,7 @@ void Mtmchkin::printLeaderBoard() const
     }
 }
 
+//Checks if the game has ended
 bool Mtmchkin::isGameOver() const
 {
     bool gameOver = true;
@@ -94,6 +100,7 @@ bool Mtmchkin::isGameOver() const
     return gameOver;
 }
 
+//Returns the number of rounds played
 int Mtmchkin::getNumberOfRounds() const
 {
     return m_numRounds;
@@ -101,17 +108,16 @@ int Mtmchkin::getNumberOfRounds() const
 
 //------------------------------------------Additional Functions-------------------------------------
 
+//Factory function for creating cards according to the appropriate derived class
 template <class Derived>
-Card* creationFactory()
+std::unique_ptr<Card> creationFactory()
 {
-    Card* currentCard = new Derived;
-    if (!currentCard) {
-        delete currentCard;
-        throw std::bad_alloc();
-    }
-    return currentCard;
+    std::unique_ptr<Card> currentCard(new Derived);//-----------------------------------------------------------------Possible memory leak, internet says no but need to double-check
+    //Move card (not copy)
+    return std::move(currentCard);
 }
 
+//Create queue of cards
 std::queue<Card> createDeck(const std::ifstream& sourceFile)
 {
     //Initiate card dictionary
@@ -125,24 +131,27 @@ std::queue<Card> createDeck(const std::ifstream& sourceFile)
     cardDictionary["Treasure"] =  &creationFactory<Treasure>;
     cardDictionary["Vampire"] =  &creationFactory<Vampire>;
 
-    std::queue<Card> cardDeck;
+    std::queue<Card> tmpDeck;
     std::string line;
     int lineCounter = 0;
+    std::unique_ptr<Card> currentCard;
     while (std::getline(sourceFile, line)) {
         lineCounter++;
+        //Create card according to given name in file line
         if (cardDictionary.contains(line)) {
-            Card* currentCard = cardDictionary[line]();
-            cardDeck.push(*currentCard);
-            delete currentCard;
+            currentCard = std::move(cardDictionary[line]());
+            tmpDeck.push(*currentCard);
         }
+        //If file has invalid name in one of the lines, throw appropriate error
         else {
             throw DeckFileFormatError(lineCounter);
         }
     }
-    return std::move(cardDeck);
+    //Move queue (not copy)
+    return std::move(tmpDeck);
 }
 
-
+//Create queue of shared pointers to players
 std::queue<std::shared_ptr<Player>> createPlayers()
 {
     std::queue<std::shared_ptr<Player>> tmpPlayers;
@@ -154,24 +163,26 @@ std::queue<std::shared_ptr<Player>> createPlayers()
     std::string job;
     for (int i = 0; i < teamSize; i++) {
         receivePlayer(name, job);
-
-        //Create player according to job
+        //Create smart pointer to player according to job
         switch (*job) {
             case "Fighter":
-                std::shared_ptr<Player> ptrNewPlayer(new Fighter(name));
+                std::shared_ptr<Player> ptrNewPlayer(new Fighter(name)); //----------------------------------------------Possible memory leak, internet says no but need to double-check
                 break;
             case "Rogue":
-                std::shared_ptr<Player> ptrNewPlayer(new Rogue(name));
+                std::shared_ptr<Player> ptrNewPlayer(new Rogue(name)); //------------------------------------------------Possible memory leak, internet says no but need to double-check
                 break;
             case "Wizard":
-                std::shared_ptr<Player> ptrNewPlayer(new Wizard(name));
+                std::shared_ptr<Player> ptrNewPlayer(new Wizard(name)); //-----------------------------------------------Possible memory leak, internet says no but need to double-check
                 break;
         }
+        //Add pointer to queue
         tmpPlayers.push(ptrNewPlayer);
     }
+    //Move queue (not copy)
     return std::move(tmpPlayers);
 }
 
+//Accept team size from command line until given valid argument
 int receiveTeamSize()
 {
     int teamSize;
@@ -179,20 +190,19 @@ int receiveTeamSize()
     printEnterTeamSizeMessage();
     std::cin >> teamSize;
     //If input was invalid (not an int or not in valid team size range) ask for new input
-    while ((!std::cin.good()) || (teamSize < 2) || (teamSize > 6)) {
+    while ((!std::cin.good()) || (teamSize < 2) || (teamSize > 6)) { //--------------------------------------------------Maybe need static const values
         //Ask user for team size
         printInvalidTeamSize();
         printEnterTeamSizeMessage();
-
-        //Clears error flags on cin
+        //Clears error flags on cin & clears buffer before taking in new line
         std::cin.clear();
-        //Clears buffer before taking in new line
         std::cin.ignore(numeric_limits<streamsize>::max(), '\n');
         std::cin >> teamSize;
     }
     return teamSize;
 }
 
+//Accept player details from command line until given valid arguments
 void receivePlayer(std::string& name, std::string& job)
 {
     //Ask user for player's details
@@ -202,11 +212,10 @@ void receivePlayer(std::string& name, std::string& job)
     bool validName = checkName(name);
     bool validJob = checkJob(job);
     //If input was invalid (not a valid name or job) ask for new input
-    while ((!std::cin.good()) || (!validName) || (!validJob)) {
+    while ((!std::cin.good()) || (!validName) || (!validJob)) { //-------------------------------------------------------Needs to work with input Jimmy Wizard Wizard - need to check that (!std::cin.good()) doesn't throw error
         printMessages(validName, validJob);
-        //Clears error flags on cin
+        //Clears error flags on cin & clears buffer before taking in new line
         std::cin.clear();
-        //Clears buffer before taking in new line
         std::cin.ignore(numeric_limits<streamsize>::max(), '\n');
         std::cin >> name >> job;
         //Check input
@@ -218,9 +227,11 @@ void receivePlayer(std::string& name, std::string& job)
 //Validates the name from input
 bool checkName(const std::string& givenName)
 {
+    //If the name is longer than 15 characters, the name is invalid
     if (givenName.size() > 15) {
         return false;
     }
+    //If the characters in the name are not english letters, the name is invalid
     for (char const &letter : givenName) {
         if ((letter < 'A') || (letter > 'Z' && letter < 'a') || (letter > 'z')) {
             return false;
@@ -247,6 +258,6 @@ void printMessages(const bool validName, const bool validJob)
     else if (!validJob) {
         printInvalidClass();
     }
-    //Ask user for player's details
+    //Ask user for player's details again
     printInsertPlayerMessage();
 }
