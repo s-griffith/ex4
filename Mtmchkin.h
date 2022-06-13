@@ -2,7 +2,6 @@
 #define MTMCHKIN_H_
 
 #include "Exception.h"
-#include "Queue.h"
 #include "utilities.h"
 
 #include "Cards/Card.h"
@@ -24,6 +23,10 @@
 #include <iostream>
 #include <fstream>
 #include <limits>
+#include <map>
+#include <queue>
+#include <vector>
+#include <memory>
 
 class Mtmchkin {
 public:
@@ -71,8 +74,10 @@ public:
     int getNumberOfRounds() const;
 
 private:
-    Queue<Card> m_deck;
-    Queue<Player> m_players;
+    std::queue<Card> m_deck;
+    std::queue<std::shared_ptr<Player>> m_players;
+    std::vector<std::shared_ptr<Player>> m_winners;
+    std::vector<std::shared_ptr<Player>> m_losers;
     int m_numRounds;
 };
 

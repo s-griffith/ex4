@@ -13,14 +13,14 @@ public:
      * @return
      *      string - the player's job
     */
-    std::string getJob() const;
+    std::string getJob() const override;
 
     /*
     * Override Player method - adds double the given amount of coins to the rogue's purse
     * @return
     *      void
     */
-    void addCoins(const int increaseCoins);
+    void addCoins(const int increaseCoins) override;
 
     /*
     * Here we are explicitly telling the compiler to use the default methods

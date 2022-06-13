@@ -13,7 +13,7 @@ std::string Fighter::getJob() const
 }
 
 //Override Player method - Return the attack strength = player's force * 2 + player's level
-int Player::getAttackStrength() const
+int Fighter::getAttackStrength() const
 {
     return (this->getLevel() + (m_force * 2));
 }

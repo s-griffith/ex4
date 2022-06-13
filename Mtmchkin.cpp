@@ -1,11 +1,11 @@
 #include "Mtmchkin.h"
 
 //Left to do: Leaderboard (maybe array of pointers? rank for each player?)
-//              Exceptions: DeckFileFormatError where to add?
 
 //------------------------------------------Additional Functions-------------------------------------
-Queue<Card>& createDeck(const std::ifstream& sourceFile);
-Queue<Player>& createPlayers();
+Card* creationFactory();
+std::queue<Card> createDeck(const std::ifstream& sourceFile);
+std::queue<std::shared_ptr<Player>> createPlayers();
 int receiveTeamSize();
 void receivePlayer(std::string *name, std::string *job);
 bool checkName(const std::string& givenName);
@@ -21,11 +21,11 @@ Mtmchkin::Mtmchkin(const std::string fileName)
     if (!sourceFile) {
         throw DeckFileNotFound();
     }
-    m_deck = createDeck(sourceFile);
+    m_deck = std::move(createDeck(sourceFile));
     if (m_deck.size() < 5) {
         throw DeckFileInvalidSize();
     }
-    m_players = createPlayers();
+    m_players = std::move(createPlayers());
     m_numRounds = 0;
 }
 
@@ -34,39 +34,60 @@ void Mtmchkin::playRound()
     if (!isGameOver()) {
         //Print that another round has started
         printRoundStartMessage();
-        for (Player& currentPlayer : m_players) {
-            if ((currentPlayer.getLevel() != Player::MAX_LEVEL) && (!currentPlayer.isKnockedOut())) {
+        for (std::shared_ptr<Player>& currentPlayer : m_players) {
+            if (((*currentPlayer).getLevel() != Player::MAX_LEVEL) && (!(*currentPlayer).isKnockedOut())) {
                 //Print player's turn
-                printTurnStartMessage(currentPlayer.getName());
+                printTurnStartMessage((*currentPlayer).getName());
                 //Draw card
-                Card* currentCard = &(m_deck.front()); //make sure we can point to a reference
-                m_deck.popFront();
+                Card currentCard = m_deck.front();
+                m_deck.pop();
                 //Play card
-                currentCard.applyEncounter(currentPlayer);
+                currentCard.applyEncounter(*currentPlayer);
                 //Return card to back of deck
-                m_deck.pushBack(*currentCard);
+                m_deck.push(currentCard);
+            }
+            if ((*currentPlayer).getLevel() == Player::MAX_LEVEL) {
+                m_winners.push_back(currentPlayer);
+            }
+            else if ((*currentPlayer).isKnockedOut()) {
+                m_losers.insert(m_losers.begin(), currentPlayer);
             }
         }
+        m_numRounds++;
     }
     if (isGameOver()) { //Maybe needs to be inside if(), depends if this function is called on a game that is over and the message is required or not
         printGameEndMessage();
     }
 }
 
-void Mtmchkin::printLeaderBoard() const //Temp print, needs to be in different player order by their ranking
+void Mtmchkin::printLeaderBoard() const
 {
     printLeaderboardStartMessage();
     int playerCounter = 1;
-    for (Player& currentPlayer : m_players) {
-        printPlayerLeaderboard(playerCounter, currentPlayer)
+    //Prints winners
+    for (const std::shared_ptr<Player>& currentPlayer : m_winners) {
+        printPlayerLeaderboard(playerCounter, (*currentPlayer))
+        playerCounter++;
+    }
+    //Prints current players by their turn
+    for (const std::shared_ptr<Player>& currentPlayer : m_players) {
+        if (((*currentPlayer).getLevel() != Player::MAX_LEVEL) && (!(*currentPlayer).isKnockedOut())) {
+            printPlayerLeaderboard(playerCounter, (*currentPlayer))
+            playerCounter++;
+        }
+    }
+    //Prints losers
+    for (const std::shared_ptr<Player>& currentPlayer : m_losers) {
+        printPlayerLeaderboard(playerCounter, (*currentPlayer))
+        playerCounter++;
     }
 }
 
 bool Mtmchkin::isGameOver() const
 {
     bool gameOver = true;
-    for (Player& currentPlayer : m_players) {
-        if ((currentPlayer.getLevel() != Player::MAX_LEVEL) && (!currentPlayer.isKnockedOut())) {
+    for (const std::shared_ptr<Player>& currentPlayer : m_players) {
+        if (((*currentPlayer).getLevel() != Player::MAX_LEVEL) && (!(*currentPlayer).isKnockedOut())) {
             gameOver = false;
         }
     }
@@ -80,66 +101,75 @@ int Mtmchkin::getNumberOfRounds() const
 
 //------------------------------------------Additional Functions-------------------------------------
 
-Queue<Card>& createDeck(const std::ifstream& sourceFile)
+template <class Derived>
+Card* creationFactory()
 {
-    Queue<Card> cardDeck;
-    std::string line;
-    while (std::getline(sourceFile, line)) {
-        Card* currentCard;
-        //More elegant than switch-case if we have time:
-        // https://stackoverflow.com/questions/954548/how-to-pass-a-function-pointer-that-points-to-constructor
-        switch (line) {
-            case "Barfight":
-                currentCard = new Barfight();
-            case "Dragon":
-                currentCard = new Dragon();
-            case "Fairy":
-                currentCard = new Fairy();
-            case "Goblin":
-                currentCard = new Goblin();
-            case "Merchant":
-                currentCard = new Merchant();
-            case "Pitfall":
-                currentCard = new Pitfall();
-            case "Treasure":
-                currentCard = new Treasure();
-            case "Vampire":
-                currentCard = new Vampire();
-            //What to do if the line holds invalid card name? https://piazza.com/class/l0tbx31evh31vr?cid=1041
-        }
-        cardDeck.pushback(*currentCard);
+    Card* currentCard = new Derived;
+    if (!currentCard) {
         delete currentCard;
+        throw std::bad_alloc();
     }
-    return cardDeck;
+    return currentCard;
 }
 
-Queue<Player>& createPlayers()
+std::queue<Card> createDeck(const std::ifstream& sourceFile)
 {
-    Queue<Player> tmpPlayers;
+    //Initiate card dictionary
+    std::map<std::string, Card*(*)()> cardDictionary;
+    cardDictionary["Barfight"] = &creationFactory<Barfight>;
+    cardDictionary["Dragon"] =  &creationFactory<Dragon>;
+    cardDictionary["Fairy"] =  &creationFactory<Fairy>;
+    cardDictionary["Goblin"] =  &creationFactory<Goblin>;
+    cardDictionary["Merchant"] =  &creationFactory<Merchant>;
+    cardDictionary["Pitfall"] =  &creationFactory<Pitfall>;
+    cardDictionary["Treasure"] =  &creationFactory<Treasure>;
+    cardDictionary["Vampire"] =  &creationFactory<Vampire>;
+
+    std::queue<Card> cardDeck;
+    std::string line;
+    int lineCounter = 0;
+    while (std::getline(sourceFile, line)) {
+        lineCounter++;
+        if (cardDictionary.contains(line)) {
+            Card* currentCard = cardDictionary[line]();
+            cardDeck.push(*currentCard);
+            delete currentCard;
+        }
+        else {
+            throw DeckFileFormatError(lineCounter);
+        }
+    }
+    return std::move(cardDeck);
+}
+
+
+std::queue<std::shared_ptr<Player>> createPlayers()
+{
+    std::queue<std::shared_ptr<Player>> tmpPlayers;
     //Print opening game message
     printStartGameMessage();
     //Receives and validates team size from user
     int teamSize = receiveTeamSize();
-    std::string* name;
-    std::string* job;
+    std::string name;
+    std::string job;
     for (int i = 0; i < teamSize; i++) {
         receivePlayer(name, job);
 
         //Create player according to job
         switch (*job) {
             case "Fighter":
-                Fighter newPlayer(*name);
+                std::shared_ptr<Player> ptrNewPlayer(new Fighter(name));
                 break;
             case "Rogue":
-                Rogue newPlayer(*name);
+                std::shared_ptr<Player> ptrNewPlayer(new Rogue(name));
                 break;
             case "Wizard":
-                Wizard newPlayer(*name);
+                std::shared_ptr<Player> ptrNewPlayer(new Wizard(name));
                 break;
         }
-        tmpPlayers.pushback(newPlayer);
+        tmpPlayers.push(ptrNewPlayer);
     }
-    return tmpPlayers;
+    return std::move(tmpPlayers);
 }
 
 int receiveTeamSize()
@@ -163,27 +193,25 @@ int receiveTeamSize()
     return teamSize;
 }
 
-void receivePlayer(std::string *name, std::string *job)
+void receivePlayer(std::string& name, std::string& job)
 {
     //Ask user for player's details
     printInsertPlayerMessage();
-    std::cin >> (*name) >> (*job);
+    std::cin >> name >> job;
     //Check input
-    bool validName = checkName(*name);
-    bool validJob = checkJob(*job);
-    //If input was invalid (not an int or not in valid team size range) ask for new input
+    bool validName = checkName(name);
+    bool validJob = checkJob(job);
+    //If input was invalid (not a valid name or job) ask for new input
     while ((!std::cin.good()) || (!validName) || (!validJob)) {
         printMessages(validName, validJob);
-
         //Clears error flags on cin
         std::cin.clear();
         //Clears buffer before taking in new line
         std::cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        std::cin >> (*name) >> (*job);
-
+        std::cin >> name >> job;
         //Check input
-        validName = checkName(*name);
-        validJob = checkJob(*job);
+        validName = checkName(name);
+        validJob = checkJob(job);
     }
 }
 
@@ -201,7 +229,7 @@ bool checkName(const std::string& givenName)
     return true;
 }
 
-//Validates the name from input
+//Validates the job from input
 bool checkJob(const std::string& givenJob)
 {
     if ((givenJob.compare("Fighter") != 0) && (givenJob.compare("Rogue") != 0) && (givenJob.compare("Wizard") != 0)) {
@@ -210,6 +238,7 @@ bool checkJob(const std::string& givenJob)
     return true;
 }
 
+//Prints relevant message
 void printMessages(const bool validName, const bool validJob)
 {
     if (!validName) {
@@ -218,6 +247,6 @@ void printMessages(const bool validName, const bool validJob)
     else if (!validJob) {
         printInvalidClass();
     }
-    //Ask user for team size
+    //Ask user for player's details
     printInsertPlayerMessage();
 }
