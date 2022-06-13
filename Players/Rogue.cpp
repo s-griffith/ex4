@@ -13,7 +13,7 @@ std::string Rogue::getJob() const
 }
 
 //Override Player method - adds double the given amount of coins to the rogue's purse
-void addCoins(const int increaseCoins)
+void Rogue::addCoins(const int increaseCoins)
 {
     int newIncrease = increaseCoins * 2;
     if (newIncrease >= 0) {
