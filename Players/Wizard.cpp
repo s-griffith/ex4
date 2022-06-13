@@ -6,14 +6,14 @@ Wizard::Wizard(const std::string givenName) :
 {}
 
 //Returns the player's job
-std::string Rogue::getJob() const
+std::string Wizard::getJob() const
 {
     std::string job("Wizard");
     return job;
 }
 
 // Override Player method - Increases the player's health points by double the given amount, until maxHP reached
-void heal(const int increaseHP)
+void Wizard::heal(const int increaseHP)
 {
     int doubleIncrease = increaseHP * 2;
     if (doubleIncrease >= 0) {
