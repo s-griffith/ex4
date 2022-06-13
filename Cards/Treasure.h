@@ -3,8 +3,6 @@
 
 #include "Card.h"
 
-const int TREASURE_LOOT = 10;
-
 /*
  *  Treasure Card Class:
  *  This class represents a single Treasure card.
@@ -12,6 +10,9 @@ const int TREASURE_LOOT = 10;
 */
 class Treasure : public Card {
 public:
+
+    const int TREASURE_LOOT = 10;
+
     /*
      * Constructor of Treasure class
      *

@@ -3,9 +3,6 @@
 
 #include "Card.h"
 
-const int GOBLIN_FORCE = 6;
-const int GOBLIN_LOOT = 2;
-const int GOBLIN_HP_LOSS = 10;
 
 /*
  *  Goblin Monster Class:
@@ -13,6 +10,11 @@ const int GOBLIN_HP_LOSS = 10;
 */
 class Goblin : public MonsterCards {
 public:
+
+    const int GOBLIN_FORCE = 6;
+    const int GOBLIN_LOOT = 2;
+    const int GOBLIN_HP_LOSS = 10;
+
     /*
      * Constructor of Goblin class
      *

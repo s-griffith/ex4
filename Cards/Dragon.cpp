@@ -16,10 +16,10 @@ void Dragon::applyEncounter(Player& player) const
     if (win) {
         player.levelUp();
         player.addCoins(m_loot);
-        printWinBattle(player.m_name, m_name);
+        printWinBattle(player.getName(), m_name);
     }
     else {
         player.damage(player.m_maxHP);
-        printLossBattle(player.m_name, m_name);
+        printLossBattle(player.getName(), m_name);
     }
 }

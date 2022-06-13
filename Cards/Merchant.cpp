@@ -7,7 +7,7 @@
 //Need to catch exceptions from getline and stoi functions. Check this.
 void Merchant::applyEncounter(Player& player) const
 {
-    printMerchantInitialMessageForInteractiveEncounter(std::cout, player.m_name, player.m_coins);
+    printMerchantInitialMessageForInteractiveEncounter(std::cout, player.getName(), player.getCoins());
     std::string initialInput;
     int cost;
     std::getline(std::cin, initialInput);
@@ -41,5 +41,5 @@ void Merchant::applyEncounter(Player& player) const
                 break;
         }
     }
-    printMerchantSummary(std::cout, player.m_name, input, cost);
+    printMerchantSummary(std::cout, player.getName(), input, cost);
 }

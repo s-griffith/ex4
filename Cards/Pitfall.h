@@ -3,8 +3,6 @@
 
 #include "Card.h"
 
-const int HP_LOSS = 10;
-
 /*
  *  Pitfall Card Class:
  *  This class represents a single Pitfall card.
@@ -12,6 +10,9 @@ const int HP_LOSS = 10;
 */
 class Pitfall : public Card {
 public:
+
+    const int HP_LOSS = 10;
+
     /*
      * Constructor of Pitfall class
      *

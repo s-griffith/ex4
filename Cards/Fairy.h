@@ -3,14 +3,15 @@
 
 #include "Card.h"
 
-const int HP_GAIN = 10;
-
 /*
  *  Fairy Card Class:
  *  This class represents a single Fairy card.
 */
 class Fairy : public Card {
 public:
+
+    const int HP_GAIN = 10;
+
     /*
      * Constructor of Fairy class
      *

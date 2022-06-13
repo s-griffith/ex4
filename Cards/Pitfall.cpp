@@ -10,7 +10,7 @@ Pitfall::Pitfall()
 //Apply Encounter Function
 void Pitfall::applyEncounter(Player& player) const
 {
-    bool isRogue = (player.m_name == "Rogue");
+    bool isRogue = (player.getName() == "Rogue");
     if (!isRogue) {
         player.damage(HP_LOSS);
     }

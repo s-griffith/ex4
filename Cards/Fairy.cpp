@@ -10,7 +10,7 @@ Fairy::Fairy()
 //Apply Encounter Function
 void Fairy::applyEncounter(Player& player) const
 {
-    bool isWizard = (player.m_name == "Wizard");
+    bool isWizard = (player.getName() == "Wizard");
     if (isWizard) {
         player.heal(HP_GAIN); //assuming player has a specific overridden function for wizards, bc hp needs to be doubled
     }

@@ -3,16 +3,17 @@
 
 #include "Card.h"
 
-const int VAMPIRE_FORCE = 10;
-const int VAMPIRE_LOOT = 2;
-const int VAMPIRE_HP_LOSS = 10;
-
 /*
  *  Vampire Monster Class:
  *  This class represents a single Vampire card.
 */
 class Vampire : public MonsterCards {
 public:
+
+    const int VAMPIRE_FORCE = 10;
+    const int VAMPIRE_LOOT = 2;
+    const int VAMPIRE_HP_LOSS = 10;
+
     /*
      * Constructor of Vampire class
      *

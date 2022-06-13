@@ -3,8 +3,6 @@
 
 #include "Card.h"
 
-const int HP_LOSS = 10;
-
 /*
  *  Barfight Card Class:
  *  This class represents a single Barfight card.
@@ -12,6 +10,9 @@ const int HP_LOSS = 10;
 */
 class Barfight : public Card {
 public:
+
+    const int HP_LOSS = 10;
+
     /*
      * Constructor of Barfight class
      *

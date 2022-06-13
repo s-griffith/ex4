@@ -10,7 +10,7 @@ Barfight::Barfight()
 //Apply Encounter Function
 void Barfight::applyEncounter(Player& player) const
 {
-    bool isFighter = (player.m_name == "Fighter");
+    bool isFighter = (player.getName() == "Fighter");
     if (!isFighter) {
         player.damage(HP_LOSS);
     }

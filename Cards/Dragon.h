@@ -3,9 +3,6 @@
 
 #include "Card.h"
 
-const int DRAGON_FORCE = 25;
-const int DRAGON_LOOT = 1000;
-
 //Issue with this class: Dragon has no real need for hpLossOnDefeat. Making that an internal field though will change the entire implementation of everything else.
 
 /*
@@ -14,6 +11,10 @@ const int DRAGON_LOOT = 1000;
 */
 class Dragon : public MonsterCards {
 public:
+
+    const int DRAGON_FORCE = 25;
+    const int DRAGON_LOOT = 1000;
+
     /*
      * Constructor of Dragon class
      *
