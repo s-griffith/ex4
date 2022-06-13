@@ -6,7 +6,7 @@ Fighter::Fighter(const std::string givenName) :
 {}
 
 //Returns the player's job
-std::string Rogue::getJob() const
+std::string Fighter::getJob() const
 {
     std::string job("Fighter");
     return job;
