@@ -75,12 +75,11 @@ public:
     int getNumberOfRounds() const;
 
 private:
-    std::queue<Card> m_deck;
+    std::queue<std::shared_ptr<Card>> m_deck;
     std::list<std::shared_ptr<Player>> m_players;
     std::vector<std::shared_ptr<Player>> m_winners;
     std::vector<std::shared_ptr<Player>> m_losers;
     int m_numRounds;
 };
-
 
 #endif /* MTMCHKIN_H_ */
