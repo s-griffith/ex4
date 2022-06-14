@@ -14,7 +14,7 @@ void Merchant::applyEncounter(Player& player) const
     while (input != 0 && input != 1 && input != 2) {
         printInvalidInput();
         std::getline(std::cin, initialInput);
-        int input = std::stoi(initialInput);    
+        input = std::stoi(initialInput);    
     }
     switch(input) {
         case 0:
