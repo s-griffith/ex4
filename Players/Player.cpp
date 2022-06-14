@@ -49,6 +49,9 @@ void Player::buff(const int increaseForce)
 {
     if (increaseForce >= -1) {
         m_force += increaseForce;
+        if (m_force < 0) {
+            m_force = 0;
+        }
     }
 }
 

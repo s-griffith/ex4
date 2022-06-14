@@ -19,7 +19,6 @@ Mtmchkin::Mtmchkin(const std::string fileName)
 {
     //Check if file name valid, throw appropriate error if not
     std::ifstream sourceFile(fileName);
-    std::cout << "File name " << fileName << std::endl;
     if (!sourceFile || !sourceFile.is_open()) {
         throw DeckFileNotFound();
     }
@@ -36,7 +35,7 @@ Mtmchkin::Mtmchkin(const std::string fileName)
     }
     //Create players + initiate number of rounds in game
     m_players = std::move(createPlayers());
-    m_numRounds = 0;
+    m_numRounds = 1;
 }
 
 void Mtmchkin::playRound()
@@ -113,7 +112,7 @@ bool Mtmchkin::isGameOver() const
 //Returns the number of rounds played
 int Mtmchkin::getNumberOfRounds() const
 {
-    return m_numRounds;
+    return m_numRounds-1;
 }
 
 //------------------------------------------Additional Functions-------------------------------------
