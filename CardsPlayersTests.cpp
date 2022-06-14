@@ -16,7 +16,7 @@
 #include "Players/Rogue.h"
 #include "Players/Wizard.h"
 
-#include "Mtmchkin.cpp"
+#include "Mtmchkin.h"
 
 #include <iostream>
 
