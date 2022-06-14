@@ -2,6 +2,8 @@
 #define EX4_FAIRY_H
 
 #include "Card.h"
+#include "../Players/Player.h"
+
 
 /*
  *  Fairy Card Class:

@@ -2,6 +2,7 @@
 #define EX4_TREASURE_H
 
 #include "Card.h"
+#include "../Players/Player.h"
 
 /*
  *  Treasure Card Class:

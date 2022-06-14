@@ -1,7 +1,5 @@
 #include <iostream>
 #include "Card.h"
-#include "../utilities.h"
-#include "../Players/Player.h"
 
 //----------------------------------Card Class Functions----------------------------------
 

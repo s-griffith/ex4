@@ -40,8 +40,14 @@ public:
     const char* what() const noexcept override
     {
         const char* line = std::to_string(m_lineNumber).c_str();
+<<<<<<< HEAD
         return ("Deck File Error: File format error in line" + *line);
         //This gave compilation errors otherwise: to_string wanted a const char* and not a basic string. Need to check that this actually works out 
+=======
+        return("Deck File Error: File format error in line" + *line);
+        //return ("Deck File Error: File format error in line" + to_string(m_lineNumber));
+        //The original line gives a compilation error. to_string wanted a const char* and not basic_string. Need to check that this actually works out.
+>>>>>>> 805633594662f52dc3103c72edab5b0501391027
     }
 private:
     int m_lineNumber;

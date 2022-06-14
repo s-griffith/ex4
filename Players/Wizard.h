@@ -13,14 +13,14 @@ public:
     * @return
     *      string - the player's job
     */
-    std::string getJob() const;
+    std::string getJob() const override;
 
     /*
      * Override Player method - Increases the player's health points by double the given amount, until maxHP reached
      * @return
      *      void
     */
-    void heal(const int increaseHP);
+    void heal(const int increaseHP) override;
 
     /*
      * Here we are explicitly telling the compiler to use the default methods

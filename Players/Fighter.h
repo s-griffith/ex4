@@ -13,14 +13,14 @@ public:
     * @return
     *      string - the player's job
     */
-    std::string getJob() const;
+    std::string getJob() const override;
 
     /*
     * Override Player method - Return the attack strength = player's force * 2 + player's level
     * @return
     *      the calculated attach strength
     */
-    int getAttackStrength() const;
+    int getAttackStrength() const override;
 
     /*
      * Here we are explicitly telling the compiler to use the default methods

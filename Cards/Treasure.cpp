@@ -1,5 +1,4 @@
 #include "Treasure.h"
-#include "../Players/Player.h"
 
 //Constructor
 Treasure::Treasure() 

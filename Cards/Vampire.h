@@ -2,6 +2,7 @@
 #define EX4_VAMPIRE_H
 
 #include "Card.h"
+#include "../Players/Player.h"
 
 /*
  *  Vampire Monster Class:
