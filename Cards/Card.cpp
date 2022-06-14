@@ -13,6 +13,10 @@ void Card::printInfo(std::ostream &os) const
     printCardDetails(os, m_name);
 }
 
+std::string Card::getName() const
+{
+    return m_name;
+}
 
 //----------------------------------Card Class Non-Member Function----------------------------------
 

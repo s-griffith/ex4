@@ -28,6 +28,8 @@ void Merchant::applyEncounter(Player& player) const
             break;
     }
     if (!player.pay(cost)) {
+        cost = 0;
+        input = 0;
         printMerchantInsufficientCoins(std::cout);
     }
     else {

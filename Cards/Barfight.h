@@ -29,9 +29,9 @@ public:
     ~Barfight() = default;
 
     /*
-     * Barfight has no logically changeable data, so we'll forbid the use of a copy constructor.
+     * Copy Constructor of Barfight class
     */    
-    Barfight(const Barfight&) = delete;
+    Barfight(const Barfight&) = default;
 
     /*
      * Handling the player's applyEncounter with a Barfight card:

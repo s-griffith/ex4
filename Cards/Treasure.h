@@ -31,7 +31,7 @@ public:
     /*
      * Treasure has no logically changeable data, so we'll forbid the use of a copy constructor.
     */  
-    Treasure(const int&) = delete;
+    Treasure(const Treasure&) = default;
 
     /*
      * Handling the player's applyEncounter with a Treasure card:

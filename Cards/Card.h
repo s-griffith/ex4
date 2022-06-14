@@ -55,6 +55,7 @@ public:
      *      os
     */
     friend std::ostream& operator<<(std::ostream& os, const Card& card);
+    std::string getName() const;
 
 protected:
     /*

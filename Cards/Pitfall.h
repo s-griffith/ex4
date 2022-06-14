@@ -31,7 +31,7 @@ public:
     /*
      * Pitfall has no logically changeable data, so we'll forbid the use of a copy constructor.
     */
-    Pitfall(const Pitfall&) = delete;
+    Pitfall(const Pitfall&) = default;
 
     /*
      * Handling the player's applyEncounter with a Pitfall card:

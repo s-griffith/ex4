@@ -25,6 +25,7 @@
 #include <limits>
 #include <map>
 #include <queue>
+#include <list>
 #include <vector>
 #include <memory>
 
@@ -75,7 +76,7 @@ public:
 
 private:
     std::queue<Card> m_deck;
-    std::queue<std::shared_ptr<Player>> m_players;
+    std::list<std::shared_ptr<Player>> m_players;
     std::vector<std::shared_ptr<Player>> m_winners;
     std::vector<std::shared_ptr<Player>> m_losers;
     int m_numRounds;

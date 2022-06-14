@@ -3,13 +3,15 @@
 //------------------------------------------Additional Functions-------------------------------------
 template <class Derived> //----------------------------------------------------------------------------------------------not sure if this line is needed up here
 std::unique_ptr<Card> creationFactory();
-std::queue<Card> createDeck(const std::ifstream& sourceFile);
-std::queue<std::shared_ptr<Player>> createPlayers();
+std::map<std::string, std::unique_ptr<Card>(*)()> createCardDictionary();
+std::queue<Card> createDeck(std::ifstream& sourceFile);
+std::list<std::shared_ptr<Player>> createPlayers();
 int receiveTeamSize();
 void receivePlayer(std::string& name, std::string& job);
 bool checkName(const std::string& givenName);
 bool checkJob(const std::string& givenJob);
 void printMessages(const bool validName, const bool validJob);
+std::unique_ptr<Card> castCard(const std::string& cardName);
 //---------------------------------------------------------------------------------------------------
 
 
@@ -17,7 +19,7 @@ Mtmchkin::Mtmchkin(const std::string fileName)
 {
     //Check if file name valid, throw appropriate error if not
     std::ifstream sourceFile(fileName);
-    if (!sourceFile) {
+    if (!sourceFile || !sourceFile.is_open()) {
         throw DeckFileNotFound();
     }
     //Create card deck
@@ -29,33 +31,36 @@ Mtmchkin::Mtmchkin(const std::string fileName)
     //Create players + initiate number of rounds in game
     m_players = std::move(createPlayers());
     m_numRounds = 0;
+    sourceFile.close();
 }
 
 void Mtmchkin::playRound()
 {
     if (!isGameOver()) {
         //Print that another round has started
-        printRoundStartMessage();
+        printRoundStartMessage(m_numRounds);
         for (std::shared_ptr<Player>& currentPlayer : m_players) {
             if (((*currentPlayer).getLevel() != Player::MAX_LEVEL) && (!(*currentPlayer).isKnockedOut())) {
                 //Print player's turn
                 printTurnStartMessage((*currentPlayer).getName());
                 //Draw card
-                Card currentCard = m_deck.front();
+                std::string cardName = m_deck.front().getName();
+                std::unique_ptr<Card> currentCard = std::move(castCard(cardName)); //make sure that it copies
                 m_deck.pop();
                 //Play card
-                currentCard.applyEncounter(*currentPlayer);
+                (*currentCard).applyEncounter(*currentPlayer);
                 //Return card to back of deck
-                m_deck.push(currentCard);
+                m_deck.push(*currentCard);
+                //If the player has reached max level, the player has won the game!
+                if ((*currentPlayer).getLevel() == Player::MAX_LEVEL) {
+                    m_winners.push_back(currentPlayer);
+                }
+                //If the player is knocked out, the player has lost...
+                else if ((*currentPlayer).isKnockedOut()) {
+                    m_losers.insert(m_losers.begin(), currentPlayer);
+                }
             }
-            //If the player has reached max level, the player has won the game!
-            if ((*currentPlayer).getLevel() == Player::MAX_LEVEL) {
-                m_winners.push_back(currentPlayer);
-            }
-            //If the player is knocked out, the player has lost...
-            else if ((*currentPlayer).isKnockedOut()) {
-                m_losers.insert(m_losers.begin(), currentPlayer);
-            }
+
         }
         //Count number of rounds completed in game
         m_numRounds++;
@@ -67,23 +72,23 @@ void Mtmchkin::playRound()
 
 void Mtmchkin::printLeaderBoard() const
 {
-    printLeaderboardStartMessage();
+    printLeaderBoardStartMessage();
     int playerCounter = 1;
     //Prints winners
     for (const std::shared_ptr<Player>& currentPlayer : m_winners) {
-        printPlayerLeaderboard(playerCounter, (*currentPlayer))
+        printPlayerLeaderBoard(playerCounter, (*currentPlayer));
         playerCounter++;
     }
     //Prints current players by their turn
     for (const std::shared_ptr<Player>& currentPlayer : m_players) {
         if (((*currentPlayer).getLevel() != Player::MAX_LEVEL) && (!(*currentPlayer).isKnockedOut())) {
-            printPlayerLeaderboard(playerCounter, (*currentPlayer))
+            printPlayerLeaderBoard(playerCounter, (*currentPlayer));
             playerCounter++;
         }
     }
     //Prints losers
     for (const std::shared_ptr<Player>& currentPlayer : m_losers) {
-        printPlayerLeaderboard(playerCounter, (*currentPlayer))
+        printPlayerLeaderBoard(playerCounter, (*currentPlayer));
         playerCounter++;
     }
 }
@@ -114,14 +119,12 @@ std::unique_ptr<Card> creationFactory()
 {
     std::unique_ptr<Card> currentCard(new Derived);//-----------------------------------------------------------------Possible memory leak, internet says no but need to double-check
     //Move card (not copy)
-    return std::move(currentCard);
+    return currentCard;
 }
 
-//Create queue of cards
-std::queue<Card> createDeck(const std::ifstream& sourceFile)
+std::map<std::string, std::unique_ptr<Card>(*)()> createCardDictionary() 
 {
-    //Initiate card dictionary
-    std::map<std::string, Card*(*)()> cardDictionary;
+    std::map<std::string, std::unique_ptr<Card>(*)()> cardDictionary;
     cardDictionary["Barfight"] = &creationFactory<Barfight>;
     cardDictionary["Dragon"] =  &creationFactory<Dragon>;
     cardDictionary["Fairy"] =  &creationFactory<Fairy>;
@@ -130,16 +133,22 @@ std::queue<Card> createDeck(const std::ifstream& sourceFile)
     cardDictionary["Pitfall"] =  &creationFactory<Pitfall>;
     cardDictionary["Treasure"] =  &creationFactory<Treasure>;
     cardDictionary["Vampire"] =  &creationFactory<Vampire>;
+    return cardDictionary;
+}
 
+//Create queue of cards
+std::queue<Card> createDeck(std::ifstream& sourceFile)
+{
+    //Initiate card dictionary
+    std::map<std::string, std::unique_ptr<Card>(*)()> cardDictionary = createCardDictionary();
     std::queue<Card> tmpDeck;
     std::string line;
     int lineCounter = 0;
-    std::unique_ptr<Card> currentCard;
     while (std::getline(sourceFile, line)) {
         lineCounter++;
         //Create card according to given name in file line
-        if (cardDictionary.contains(line)) {
-            currentCard = std::move(cardDictionary[line]());
+        if (cardDictionary.count(line)) {
+            std::unique_ptr<Card> currentCard(std::move(cardDictionary[line]()));
             tmpDeck.push(*currentCard);
         }
         //If file has invalid name in one of the lines, throw appropriate error
@@ -151,10 +160,11 @@ std::queue<Card> createDeck(const std::ifstream& sourceFile)
     return std::move(tmpDeck);
 }
 
+
 //Create queue of shared pointers to players
-std::queue<std::shared_ptr<Player>> createPlayers()
+std::list<std::shared_ptr<Player>> createPlayers()
 {
-    std::queue<std::shared_ptr<Player>> tmpPlayers;
+    std::list<std::shared_ptr<Player>> tmpPlayers;
     //Print opening game message
     printStartGameMessage();
     //Receives and validates team size from user
@@ -164,19 +174,19 @@ std::queue<std::shared_ptr<Player>> createPlayers()
     for (int i = 0; i < teamSize; i++) {
         receivePlayer(name, job);
         //Create smart pointer to player according to job
-        switch (*job) {
-            case "Fighter":
-                std::shared_ptr<Player> ptrNewPlayer(new Fighter(name)); //----------------------------------------------Possible memory leak, internet says no but need to double-check
-                break;
-            case "Rogue":
-                std::shared_ptr<Player> ptrNewPlayer(new Rogue(name)); //------------------------------------------------Possible memory leak, internet says no but need to double-check
-                break;
-            case "Wizard":
-                std::shared_ptr<Player> ptrNewPlayer(new Wizard(name)); //-----------------------------------------------Possible memory leak, internet says no but need to double-check
-                break;
+        std::shared_ptr<Player> ptrNewPlayer;
+        //-----------------------------------------------Possible memory leak, internet says no but need to double-check
+        if (job == "Fighter") {
+            ptrNewPlayer.reset(new Fighter(name));
+        }
+        else if (job == "Rogue") {
+            ptrNewPlayer.reset(new Rogue(name));
+        }
+        else {
+            ptrNewPlayer.reset(new Wizard(name));
         }
         //Add pointer to queue
-        tmpPlayers.push(ptrNewPlayer);
+        tmpPlayers.push_back(ptrNewPlayer);
     }
     //Move queue (not copy)
     return std::move(tmpPlayers);
@@ -196,7 +206,7 @@ int receiveTeamSize()
         printEnterTeamSizeMessage();
         //Clears error flags on cin & clears buffer before taking in new line
         std::cin.clear();
-        std::cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cin >> teamSize;
     }
     return teamSize;
@@ -216,7 +226,7 @@ void receivePlayer(std::string& name, std::string& job)
         printMessages(validName, validJob);
         //Clears error flags on cin & clears buffer before taking in new line
         std::cin.clear();
-        std::cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cin >> name >> job;
         //Check input
         validName = checkName(name);
@@ -260,4 +270,12 @@ void printMessages(const bool validName, const bool validJob)
     }
     //Ask user for player's details again
     printInsertPlayerMessage();
+}
+
+std::unique_ptr<Card> castCard(const std::string& cardName) 
+{
+    //Initiate card dictionary
+    std::map<std::string, std::unique_ptr<Card>(*)()> cardDictionary = createCardDictionary();
+    std::unique_ptr<Card> ptrCurrentCard(cardDictionary[cardName]());
+    return ptrCurrentCard;
 }

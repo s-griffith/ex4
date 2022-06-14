@@ -34,7 +34,7 @@ public:
     /*
      * Merchant has no logically changeable data, so we'll forbid the use of a copy constructor.
     */
-    Merchant(const Merchant&) = delete;
+    Merchant(const Merchant&) = default;
 
     /*
      * Handling the player's applyEncounter with a Merchant card:

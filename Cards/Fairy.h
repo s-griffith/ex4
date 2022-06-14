@@ -31,7 +31,7 @@ public:
     /*
      * Fairy has no logically changeable data, so we'll forbid the use of a copy constructor.
     */
-    Fairy(const Fairy&) = delete;
+    Fairy(const Fairy&) = default;
 
     /*
      * Handling the player's applyEncounter with a Fairy card:
