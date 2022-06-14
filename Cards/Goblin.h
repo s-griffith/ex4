@@ -2,7 +2,7 @@
 #define EX4_GOBLIN_H
 
 #include "Card.h"
-
+#include "../Players/Player.h"
 
 /*
  *  Goblin Monster Class:

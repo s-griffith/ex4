@@ -1,5 +1,4 @@
 #include "Barfight.h"
-#include "../Players/Player.h"
 
 //Constructor
 Barfight::Barfight()

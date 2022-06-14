@@ -1,5 +1,4 @@
 #include "Dragon.h"
-#include "../Players/Player.h"
 
 //Constructor
 Dragon::Dragon()
@@ -19,7 +18,7 @@ void Dragon::applyEncounter(Player& player) const
         printWinBattle(player.getName(), m_name);
     }
     else {
-        player.damage(player.m_maxHP);
+        player.damage(Player::DEFAULT_MAX_HP);
         printLossBattle(player.getName(), m_name);
     }
 }

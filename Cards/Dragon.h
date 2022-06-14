@@ -2,6 +2,7 @@
 #define EX4_DRAGON_H
 
 #include "Card.h"
+#include "../Players/Player.h"
 
 //Issue with this class: Dragon has no real need for hpLossOnDefeat. Making that an internal field though will change the entire implementation of everything else.
 

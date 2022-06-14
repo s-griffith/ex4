@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <string>
-#include "../utilities.h"
 
 /*
  *  Player:
@@ -21,6 +20,7 @@ public:
     static const int DEFAULT_FORCE = 5;
     static const int STARTING_COINS = 10;
     static const int STARTING_LEVEL = 1;
+    static const int DEFAULT_COINS = 10;
 
     /*
      * C'tor of Player class

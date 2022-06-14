@@ -1,5 +1,4 @@
 #include "Goblin.h"
-#include "../Players/Player.h"
 
 //Constructor
 Goblin::Goblin()

@@ -1,5 +1,4 @@
 #include "Vampire.h"
-#include "../Players/Player.h"
 
 //Constructor
 Vampire::Vampire() 
@@ -20,7 +19,7 @@ void Vampire::applyEncounter(Player& player) const
         printWinBattle(player.getName(), m_name);
     }
     else {
-        player.m_force--;
+        player.buff(-1);
         player.damage(m_hpLossOnDefeat);
         printLossBattle(player.getName(), m_name);
     }

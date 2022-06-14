@@ -2,6 +2,7 @@
 #define EX4_BARFIGHT_H
 
 #include "Card.h"
+#include "../Players/Player.h"
 
 /*
  *  Barfight Card Class:

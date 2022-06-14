@@ -2,6 +2,7 @@
 #define EX4_PITFALL_H
 
 #include "Card.h"
+#include "../Players/Player.h"
 
 /*
  *  Pitfall Card Class:

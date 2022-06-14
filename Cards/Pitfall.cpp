@@ -1,5 +1,4 @@
 #include "Pitfall.h"
-#include "../Players/Player.h"
 
 //Constructor
 Pitfall::Pitfall() 
@@ -10,7 +9,7 @@ Pitfall::Pitfall()
 //Apply Encounter Function
 void Pitfall::applyEncounter(Player& player) const
 {
-    bool isRogue = (player.getName() == "Rogue");
+    bool isRogue = (player.getJob() == "Rogue");
     if (!isRogue) {
         player.damage(HP_LOSS);
     }
