@@ -4,7 +4,7 @@
 template <class Derived> //----------------------------------------------------------------------------------------------not sure if this line is needed up here
 std::unique_ptr<Card> creationFactory();
 std::map<std::string, std::unique_ptr<Card>(*)()> createCardDictionary();
-std::queue<Card> createDeck(std::ifstream& sourceFile);
+std::queue<std::shared_ptr<Card>> createDeck(std::ifstream& sourceFile);
 std::list<std::shared_ptr<Player>> createPlayers();
 int receiveTeamSize();
 void receivePlayer(std::string& name, std::string& job);
@@ -19,11 +19,17 @@ Mtmchkin::Mtmchkin(const std::string fileName)
 {
     //Check if file name valid, throw appropriate error if not
     std::ifstream sourceFile(fileName);
+    std::cout << "File name " << fileName << std::endl;
     if (!sourceFile || !sourceFile.is_open()) {
         throw DeckFileNotFound();
     }
     //Create card deck
-    m_deck = std::move(createDeck(sourceFile));
+    try {
+        m_deck = std::move(createDeck(sourceFile));
+    } catch (std::exception &e) {
+        sourceFile.close();
+        throw e;
+    }
     //If the card deck is less than 5 cards, throw appropriate error
     if (m_deck.size() < 5) {
         throw DeckFileInvalidSize();
@@ -31,7 +37,6 @@ Mtmchkin::Mtmchkin(const std::string fileName)
     //Create players + initiate number of rounds in game
     m_players = std::move(createPlayers());
     m_numRounds = 0;
-    sourceFile.close();
 }
 
 void Mtmchkin::playRound()
@@ -44,13 +49,13 @@ void Mtmchkin::playRound()
                 //Print player's turn
                 printTurnStartMessage((*currentPlayer).getName());
                 //Draw card
-                std::string cardName = m_deck.front().getName();
-                std::unique_ptr<Card> currentCard = std::move(castCard(cardName)); //make sure that it copies
-                m_deck.pop();
+                std::string cardName = (*m_deck.front()).getName();
+                std::shared_ptr<Card> currentCard = castCard(cardName); //make sure that it copies
                 //Play card
                 (*currentCard).applyEncounter(*currentPlayer);
                 //Return card to back of deck
-                m_deck.push(*currentCard);
+                m_deck.push(m_deck.front());
+                m_deck.pop();
                 //If the player has reached max level, the player has won the game!
                 if ((*currentPlayer).getLevel() == Player::MAX_LEVEL) {
                     m_winners.push_back(currentPlayer);
@@ -137,19 +142,19 @@ std::map<std::string, std::unique_ptr<Card>(*)()> createCardDictionary()
 }
 
 //Create queue of cards
-std::queue<Card> createDeck(std::ifstream& sourceFile)
+std::queue<std::shared_ptr<Card>> createDeck(std::ifstream& sourceFile)
 {
     //Initiate card dictionary
     std::map<std::string, std::unique_ptr<Card>(*)()> cardDictionary = createCardDictionary();
-    std::queue<Card> tmpDeck;
+    std::queue<std::shared_ptr<Card>> tmpDeck;
     std::string line;
     int lineCounter = 0;
     while (std::getline(sourceFile, line)) {
         lineCounter++;
         //Create card according to given name in file line
         if (cardDictionary.count(line)) {
-            std::unique_ptr<Card> currentCard(std::move(cardDictionary[line]()));
-            tmpDeck.push(*currentCard);
+            std::unique_ptr<Card> currentCard(cardDictionary[line]());
+            tmpDeck.push(std::move(currentCard));
         }
         //If file has invalid name in one of the lines, throw appropriate error
         else {
@@ -222,7 +227,7 @@ void receivePlayer(std::string& name, std::string& job)
     bool validName = checkName(name);
     bool validJob = checkJob(job);
     //If input was invalid (not a valid name or job) ask for new input
-    while ((!std::cin.good()) || (!validName) || (!validJob)) { //-------------------------------------------------------Needs to work with input Jimmy Wizard Wizard - need to check that (!std::cin.good()) doesn't throw error
+    while ((!validName) || (!validJob)) { // (!std::cin.good()) ||  //-------------------------------------------------------Needs to work with input Jimmy Wizard Wizard - need to check that (!std::cin.good()) doesn't throw error
         printMessages(validName, validJob);
         //Clears error flags on cin & clears buffer before taking in new line
         std::cin.clear();
