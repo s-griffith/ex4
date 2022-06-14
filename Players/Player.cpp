@@ -47,7 +47,7 @@ std::string Player::getName() const
 //Increases player's force by requested amount
 void Player::buff(const int increaseForce)
 {
-    if (increaseForce >= 0) {
+    if (increaseForce >= -1) {
         m_force += increaseForce;
     }
 }
