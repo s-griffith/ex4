@@ -9,13 +9,6 @@ public:
     Wizard(const std::string givenName);
 
     /*
-    * Return the player's job: "Wizard"
-    * @return
-    *      string - the player's job
-    */
-    std::string getJob() const override;
-
-    /*
      * Override Player method - Increases the player's health points by double the given amount, until maxHP reached
      * @return
      *      void
@@ -29,7 +22,6 @@ public:
     Wizard(const Wizard&) = default;
     Wizard& operator=(const Wizard& original) = default;
     ~Wizard() = default;
-private:
 };
 
 

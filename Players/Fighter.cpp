@@ -5,13 +5,6 @@ Fighter::Fighter(const std::string givenName) :
     Player(givenName)
 {}
 
-//Returns the player's job
-std::string Fighter::getJob() const
-{
-    std::string job("Fighter");
-    return job;
-}
-
 //Override Player method - Return the attack strength = player's force * 2 + player's level
 int Fighter::getAttackStrength() const
 {

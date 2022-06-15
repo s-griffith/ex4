@@ -9,13 +9,6 @@ public:
     Rogue(const std::string givenName);
 
     /*
-     * Return the player's job: "Rogue"
-     * @return
-     *      string - the player's job
-    */
-    std::string getJob() const override;
-
-    /*
     * Override Player method - adds double the given amount of coins to the rogue's purse
     * @return
     *      void
@@ -29,8 +22,6 @@ public:
     Rogue(const Rogue&) = default;
     Rogue& operator=(const Rogue& original) = default;
     ~Rogue() = default;
-
-private:
 };
 
 #endif //EX4_ROGUE_H
