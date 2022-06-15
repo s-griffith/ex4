@@ -38,8 +38,13 @@ Mtmchkin::Mtmchkin(const std::string fileName)
     if (m_deck.size() < 5) {
         throw DeckFileInvalidSize();
     }
-    //Create players + initiate number of rounds in game
-    m_players = std::move(createPlayers());
+    try {
+        //Create players + initiate number of rounds in game
+        m_players = std::move(createPlayers());
+    } catch (std::exception &e) {
+        sourceFile.close();
+        throw e;
+    }
     m_numRounds = 1;
 }
 
@@ -277,8 +282,6 @@ void printMessages(const bool validName, const bool validJob)
     else if (!validJob) {
         printInvalidClass();
     }
-    //Ask user for player's details again
-    printInsertPlayerMessage();
 }
 
 std::unique_ptr<Card> castCard(const std::string& cardName) 
