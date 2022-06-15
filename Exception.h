@@ -42,6 +42,8 @@ public:
         std::string tmpLineString = "Deck File Error: File format error in line " + std::to_string(m_lineNumber);
         const char* tmpLineChar = tmpLineString.c_str();
         return tmpLineChar;
+        /*std::string line = std::to_string(m_lineNumber);
+        return (const char*) "Deck File Error: File format error in line " + line.c_str();*/
     }
 private:
     int m_lineNumber;

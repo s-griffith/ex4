@@ -31,6 +31,7 @@ Mtmchkin::Mtmchkin(const std::string fileName)
         throw e;
     } 
     catch (std::exception &e) {
+        e.what();
         sourceFile.close();
         throw e;
     }
