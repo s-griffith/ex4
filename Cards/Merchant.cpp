@@ -7,21 +7,22 @@
 void Merchant::applyEncounter(Player& player) const
 {
     printMerchantInitialMessageForInteractiveEncounter(std::cout, player.getName(), player.getCoins());
-    std::string initialInput;
+    std::string initialInput = "0";
     int cost = 0;
-    int input = -1;
-    bool inputValid = true;
+    int input = 0;
+    bool validInput = true;
     do {
-        if (!inputValid || (input != 0 && input != 1 && input != 2)) {
-            printInvalidInput();
-        }
+        validInput = true;
         try {
             std::getline(std::cin, initialInput);
             input = std::stoi(initialInput);
         } catch (std::exception&){
-            inputValid = false;
+            validInput = false;
         }
-    }  while (!inputValid || (input != 0 && input != 1 && input != 2));
+        if (!validInput || (input != 0 && input != 1 && input != 2)) {
+            printInvalidInput();
+        }
+    }  while (!validInput || (input != 0 && input != 1 && input != 2));
 
     if (input == 1 && player.pay(HEALTH_POTION_COST)) {
         player.heal(HEALTH_POTION);
