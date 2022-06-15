@@ -25,7 +25,12 @@ Mtmchkin::Mtmchkin(const std::string fileName)
     //Create card deck
     try {
         m_deck = std::move(createDeck(sourceFile));
-    } catch (std::exception &e) {
+    }
+    catch (DeckFileFormatError &e) {
+        sourceFile.close();
+        throw e;
+    } 
+    catch (std::exception &e) {
         sourceFile.close();
         throw e;
     }

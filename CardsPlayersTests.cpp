@@ -51,6 +51,7 @@ int main() {
     //-------------------------Apply Encounter Tests-------------------------
     std::cout << "-------------------------Apply Encounter Tests-------------------------" << std::endl;
 
+
 //Fighter Tests
    /* barfightCard.applyEncounter(Waldo);
     goblinCard.applyEncounter(Waldo);

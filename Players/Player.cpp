@@ -122,7 +122,8 @@ int Player::getAttackStrength() const
 //Print players details
 std::ostream& operator<<(std::ostream& os, const Player& currentPlayer)
 {
-    printPlayerDetails(os, currentPlayer.m_name, currentPlayer.getJob(), currentPlayer.m_level,
+
+    printPlayerDetails(os, currentPlayer.m_name, currentPlayer.getJob(), currentPlayer.m_level, //currentPlayer.getJob()
                        currentPlayer.m_force, currentPlayer.m_hp, currentPlayer.m_coins);
     return os;
 }

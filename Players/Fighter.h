@@ -9,6 +9,13 @@ public:
     Fighter(const std::string givenName);
 
     /*
+    * Return the player's job: "Fighter"
+    * @return
+    *      string - the player's job
+    */
+    std::string getJob() const override;
+
+    /*
     * Override Player method - Return the attack strength = player's force * 2 + player's level
     * @return
     *      the calculated attach strength

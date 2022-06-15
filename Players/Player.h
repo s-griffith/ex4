@@ -129,7 +129,7 @@ public:
      *      for the copy constructor, destructor and the override of the "=" operator
     */
     Player(const Player&) = default;
-    ~Player() = default;
+    virtual ~Player() = default;
     Player& operator=(const Player& other) = default;
 
 protected:
