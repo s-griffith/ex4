@@ -18,9 +18,9 @@ public:
      *
      * Receives no parameters.
      * @return
-     *      A general instance of Card, with the name "Card."
+     *      A new instance of Card.
     */
-    Card();
+    Card() = default;
 
     /*
      * Here we are explicitly telling the compiler to use the default methods
@@ -55,13 +55,14 @@ public:
      *      os
     */
     friend std::ostream& operator<<(std::ostream& os, const Card& card);
-    std::string getName() const;
 
-protected:
     /*
-     * An internal field that holds the name of the type of card
-    */    
-    std::string m_name;
+     * Gets a string representing the card type:
+     *
+     * @return
+     *      string
+    */
+    virtual std::string getName() const =0;
 };
 
 /*

@@ -21,7 +21,7 @@ public:
      * @return
      *      A new instance of Treasure.
     */
-    Treasure();
+    Treasure() = default;
 
     /*
      * Destructor of Treasure class
@@ -41,6 +41,14 @@ public:
      *      void
     */
     void applyEncounter(Player& player) const override;
+    
+    /*
+     * Gets a string representing the card type:
+     *
+     * @return
+     *      string
+    */
+    std::string getName() const override;
 
 };
 

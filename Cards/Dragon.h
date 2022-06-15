@@ -51,6 +51,15 @@ public:
      *      void
     */
     void printInfo(std::ostream &os) const override;
+    
+    /*
+     * Gets a string representing the card type:
+     *
+     * @return
+     *      string
+    */
+    std::string getName() const override;
+
 };
 
 #endif //EX4_DRAGON_H

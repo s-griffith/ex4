@@ -1,11 +1,5 @@
 #include "Pitfall.h"
 
-//Constructor
-Pitfall::Pitfall() 
-{
-    m_name = "Pitfall";
-}
-
 //Apply Encounter Function
 void Pitfall::applyEncounter(Player& player) const
 {
@@ -19,4 +13,9 @@ void Pitfall::applyEncounter(Player& player) const
         player.damage(HP_LOSS);
     }
     printPitfallMessage(isRogue);
+}
+
+std::string Pitfall::getName() const
+{
+    return "Pitfall";
 }

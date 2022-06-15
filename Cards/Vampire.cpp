@@ -3,7 +3,6 @@
 //Constructor
 Vampire::Vampire() 
 {
-    m_name = "Vampire";
     m_force = VAMPIRE_FORCE;
     m_hpLossOnDefeat = VAMPIRE_HP_LOSS;
     m_loot = VAMPIRE_LOOT;
@@ -16,12 +15,16 @@ void Vampire::applyEncounter(Player& player) const
     if (win) {
         player.levelUp();
         player.addCoins(m_loot);
-        printWinBattle(player.getName(), m_name);
+        printWinBattle(player.getName(), this->getName());
     }
     else {
         player.buff(-1);
         player.damage(m_hpLossOnDefeat);
-        printLossBattle(player.getName(), m_name);
+        printLossBattle(player.getName(), this->getName());
     }
 }
 
+std::string Vampire::getName() const
+{
+    return "Vampire";
+}

@@ -3,7 +3,6 @@
 //Constructor
 Dragon::Dragon()
 {
-    m_name = "Dragon";
     m_force = DRAGON_FORCE;
     m_loot = DRAGON_LOOT;
 }
@@ -15,11 +14,11 @@ void Dragon::applyEncounter(Player& player) const
     if (win) {
         player.levelUp();
         player.addCoins(m_loot);
-        printWinBattle(player.getName(), m_name);
+        printWinBattle(player.getName(), this->getName());
     }
     else {
         player.damage(Player::DEFAULT_MAX_HP);
-        printLossBattle(player.getName(), m_name);
+        printLossBattle(player.getName(), this->getName());
     }
 }
 
@@ -27,6 +26,11 @@ void Dragon::applyEncounter(Player& player) const
 void Dragon::printInfo(std::ostream &os) const
 {
     bool isDragon = true;
-    printCardDetails(os, m_name);
+    printCardDetails(os, this->getName());
     printMonsterDetails(os, m_force, m_hpLossOnDefeat, m_loot, isDragon);
+}
+
+std::string Dragon::getName() const
+{
+    return "Dragon";
 }

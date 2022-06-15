@@ -44,3 +44,8 @@ void Merchant::applyEncounter(Player& player) const
     }
     printMerchantSummary(std::cout, player.getName(), input, cost);
 }
+
+std::string Merchant::getName() const
+{
+    return "Merchant";
+}

@@ -34,7 +34,13 @@ public:
     */
     Goblin(const Goblin&) = default;
 
-    //Goblin has nothing special when encountered, so it can use the general Battle class applyEncounter.
+    /*
+     * Gets a string representing the card type:
+     *
+     * @return
+     *      string
+    */
+    std::string getName() const override;
 };
 
 #endif //EX4_GOBLIN_H

@@ -22,7 +22,7 @@ public:
      * @return
      *      A new instance of Pitfall.
     */
-    Pitfall();
+    Pitfall() = default;
 
     /*
      * Destructor of Pitfall class
@@ -42,6 +42,14 @@ public:
      *      void
     */
     void applyEncounter(Player& player) const override;
+
+    /*
+     * Gets a string representing the card type:
+     *
+     * @return
+     *      string
+    */
+    std::string getName() const override;
 
 };
 

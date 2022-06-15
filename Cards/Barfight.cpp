@@ -1,11 +1,5 @@
 #include "Barfight.h"
 
-//Constructor
-Barfight::Barfight()
-{
-    m_name = "Barfight";
-}
-
 //Apply Encounter Function
 void Barfight::applyEncounter(Player& player) const
 {
@@ -19,4 +13,9 @@ void Barfight::applyEncounter(Player& player) const
         player.damage(HP_LOSS);
     }
     printBarfightMessage(isFighter);
+}
+
+std::string Barfight::getName() const
+{
+    return "Barfight";
 }

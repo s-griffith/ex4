@@ -22,7 +22,7 @@ public:
      * @return
      *      A new instance of Fairy.
     */
-    Fairy();
+    Fairy() = default;
 
     /*
      * Destructor of Fairy class
@@ -42,6 +42,14 @@ public:
      *      void
     */
     void applyEncounter(Player& player) const override;
+
+    /*
+     * Gets a string representing the card type:
+     *
+     * @return
+     *      string
+    */
+    std::string getName() const override;
 };
 
 #endif //EX4_FAIRY_H
