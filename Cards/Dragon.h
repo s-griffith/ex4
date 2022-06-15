@@ -43,6 +43,14 @@ public:
      *      void
     */
     void applyEncounter(Player& player) const override;
+
+    /*
+     * Prints the card info:
+     *
+     * @return
+     *      void
+    */
+    void printInfo(std::ostream &os) const override;
 };
 
 #endif //EX4_DRAGON_H

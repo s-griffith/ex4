@@ -3,6 +3,7 @@
 
 #include "Card.h"
 #include "../Players/Player.h"
+#include "../Players/Wizard.h"
 
 
 /*

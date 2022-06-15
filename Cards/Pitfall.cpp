@@ -9,7 +9,12 @@ Pitfall::Pitfall()
 //Apply Encounter Function
 void Pitfall::applyEncounter(Player& player) const
 {
-    bool isRogue = (player.getJob() == "Rogue");
+    bool isRogue = true;
+    try {
+        player = dynamic_cast<Rogue&>(player);
+    } catch (std::bad_cast&) {
+        isRogue = false;
+    }
     if (!isRogue) {
         player.damage(HP_LOSS);
     }

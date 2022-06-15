@@ -3,6 +3,7 @@
 
 #include "Card.h"
 #include "../Players/Player.h"
+#include "../Players/Rogue.h"
 
 /*
  *  Pitfall Card Class:

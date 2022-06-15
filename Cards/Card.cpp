@@ -31,7 +31,7 @@ std::ostream& operator<<(std::ostream& os, const Card& card)
 
 void MonsterCards::printInfo(std::ostream &os) const
 {
-    bool isDragon = (m_name == "Dragon");
+    bool isDragon = false;
     printCardDetails(os, m_name);
     printMonsterDetails(os, m_force, m_hpLossOnDefeat, m_loot, isDragon);
 }

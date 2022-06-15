@@ -22,3 +22,11 @@ void Dragon::applyEncounter(Player& player) const
         printLossBattle(player.getName(), m_name);
     }
 }
+
+//Print info function
+void Dragon::printInfo(std::ostream &os) const
+{
+    bool isDragon = true;
+    printCardDetails(os, m_name);
+    printMonsterDetails(os, m_force, m_hpLossOnDefeat, m_loot, isDragon);
+}
