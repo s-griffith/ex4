@@ -26,7 +26,7 @@ Mtmchkin::Mtmchkin(const std::string fileName)
     try {
         m_deck = std::move(createDeck(sourceFile));
     }
-    catch (DeckFileFormatError &e) {
+    catch (DeckFileFormatError& e) {
         sourceFile.close();
         throw e;
     } 
@@ -209,20 +209,26 @@ std::list<std::shared_ptr<Player>> createPlayers()
 //Accept team size from command line until given valid argument
 int receiveTeamSize()
 {
-    int teamSize;
+    int teamSize = 0;
+    std::string initialInput = "";
+    bool validInput = true;
     //Ask user for team size
     printEnterTeamSizeMessage();
-    std::cin >> teamSize;
-    //If input was invalid (not an int or not in valid team size range) ask for new input
-    while ((!std::cin.good()) || (teamSize < 2) || (teamSize > 6)) { //--------------------------------------------------Maybe need static const values
-        //Ask user for team size
-        printInvalidTeamSize();
-        printEnterTeamSizeMessage();
-        //Clears error flags on cin & clears buffer before taking in new line
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::cin >> teamSize;
-    }
+    do {
+        validInput = true;
+        try {
+            std::getline(std::cin, initialInput);
+            teamSize = std::stoi(initialInput);
+        }
+        catch (std::exception&) {
+            validInput = false;
+        }
+        //If input was invalid (not an int or not in valid team size range) ask for new input
+        if ((!validInput) || (teamSize < 2) || (teamSize > 6)) {
+            printInvalidTeamSize();
+            printEnterTeamSizeMessage();
+        }
+    } while ((!validInput) || (teamSize < 2) || (teamSize > 6)); //--------------------------------------------------Maybe need static const values
     return teamSize;
 }
 
@@ -231,21 +237,30 @@ void receivePlayer(std::string& name, std::string& job)
 {
     //Ask user for player's details
     printInsertPlayerMessage();
-    std::cin >> name >> job;
-    //Check input
-    bool validName = checkName(name);
-    bool validJob = checkJob(job);
-    //If input was invalid (not a valid name or job) ask for new input
-    while ((!validName) || (!validJob)) { // (!std::cin.good()) ||  //-------------------------------------------------------Needs to work with input Jimmy Wizard Wizard - need to check that (!std::cin.good()) doesn't throw error
-        printMessages(validName, validJob);
-        //Clears error flags on cin & clears buffer before taking in new line
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::cin >> name >> job;
+    std::string line = "";
+    std::string delimiter = " ";
+    bool validInput = true;
+    bool validName = true;
+    bool validJob = true;
+    do {
+        validInput = true;
+        try {
+            std::getline(std::cin, line);
+            name = line.substr(0, line.find(delimiter));
+            std::string subString = line.substr(line.find(delimiter) + 1);
+            job = subString.substr(0, subString.find(delimiter));
+        }
+        catch (std::exception&)  {
+            validInput  = false;
+        }
         //Check input
         validName = checkName(name);
         validJob = checkJob(job);
-    }
+
+        if ((!validInput) || (!validName) || (!validJob)) {
+            printMessages(validName, validJob);
+        }
+    } while ((!validInput) || (!validName) || (!validJob)); 
 }
 
 //Validates the name from input
@@ -283,6 +298,37 @@ void printMessages(const bool validName, const bool validJob)
         printInvalidClass();
     }
 }
+
+/*std::unique_ptr<Card> castCard(Card& currentCard) 
+{
+    try {
+        currentCard = dynamic_cast<Barfight&>(currentCard);
+    } catch(std::bad_cast&) {}
+    try {
+        currentCard = dynamic_cast<Dragon&>(currentCard);
+    } catch(std::bad_cast&) {}
+    try {
+        currentCard = dynamic_cast<Fairy&>(currentCard);
+    } catch(std::bad_cast&) {}
+    try {
+        currentCard = dynamic_cast<Goblin&>(currentCard);
+    } catch(std::bad_cast&) {}
+    try {
+        currentCard = dynamic_cast<Merchant&>(currentCard);
+    } catch(std::bad_cast&) {}
+    try {
+        currentCard = dynamic_cast<Pitfall&>(currentCard);
+    } catch(std::bad_cast&) {}
+    try {
+        currentCard = dynamic_cast<Treasure&>(currentCard);
+    } catch(std::bad_cast&) {}
+    try {
+        currentCard = dynamic_cast<Vampire&>(currentCard);
+    } catch(std::bad_cast&) {}
+    std::map<std::string, std::unique_ptr<Card>(*)()> cardDictionary = createCardDictionary();
+    std::unique_ptr<Card> ptrCurrentCard(cardDictionary[cardName]());
+    return ptrCurrentCard;
+}*/
 
 std::unique_ptr<Card> castCard(const std::string& cardName) 
 {
