@@ -13,7 +13,7 @@
 class Pitfall : public Card {
 public:
 
-    const int HP_LOSS = 10;
+    static const int HP_LOSS = 10;
 
     /*
      * Constructor of Pitfall class

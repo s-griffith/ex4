@@ -12,10 +12,10 @@
 class Merchant : public Card {
 public:
 
-    const int HEALTH_POTION_COST = 5;
-    const int HEALTH_POTION = 1;
-    const int FORCE_BOOST_COST = 10;
-    const int FORCE_BOOST = 1;
+    static const int HEALTH_POTION_COST = 5;
+    static const int HEALTH_POTION = 1;
+    static const int FORCE_BOOST_COST = 10;
+    static const int FORCE_BOOST = 1;
 
     /*
      * Constructor of Merchant class

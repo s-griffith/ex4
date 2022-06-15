@@ -13,7 +13,7 @@
 class Fairy : public Card {
 public:
 
-    const int HP_GAIN = 10;
+    static const int HP_GAIN = 10;
 
     /*
      * Constructor of Fairy class

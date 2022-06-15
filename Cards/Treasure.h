@@ -12,7 +12,7 @@
 class Treasure : public Card {
 public:
 
-    const int TREASURE_LOOT = 10;
+    static const int TREASURE_LOOT = 10;
 
     /*
      * Constructor of Treasure class

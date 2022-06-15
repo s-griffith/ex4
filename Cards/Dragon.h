@@ -13,8 +13,8 @@
 class Dragon : public MonsterCards {
 public:
 
-    const int DRAGON_FORCE = 25;
-    const int DRAGON_LOOT = 1000;
+    static const int DRAGON_FORCE = 25;
+    static const int DRAGON_LOOT = 1000;
 
     /*
      * Constructor of Dragon class

@@ -11,9 +11,9 @@
 class Vampire : public MonsterCards {
 public:
 
-    const int VAMPIRE_FORCE = 10;
-    const int VAMPIRE_LOOT = 2;
-    const int VAMPIRE_HP_LOSS = 10;
+    static const int VAMPIRE_FORCE = 10;
+    static const int VAMPIRE_LOOT = 2;
+    static const int VAMPIRE_HP_LOSS = 10;
 
     /*
      * Constructor of Vampire class
