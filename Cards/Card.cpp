@@ -8,6 +8,9 @@ void Card::printInfo(std::ostream &os) const
     printCardDetails(os, this->getName());
 }
 
+void Card::applyEncounter(Player& player) const
+{}
+
 //----------------------------------Card Class Non-Member Function----------------------------------
 
 std::ostream& operator<<(std::ostream& os, const Card& card)

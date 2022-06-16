@@ -11,7 +11,6 @@ void receivePlayer(std::string& name, std::string& job);
 bool checkName(const std::string& givenName);
 bool checkJob(const std::string& givenJob);
 void printMessages(const bool validName, const bool validJob);
-std::unique_ptr<Card> castCard(const std::string& cardName);
 //---------------------------------------------------------------------------------------------------
 
 
@@ -58,8 +57,7 @@ void Mtmchkin::playRound()
                 //Print player's turn
                 printTurnStartMessage((*currentPlayer).getName());
                 //Draw card
-                std::string cardName = (*m_deck.front()).getName();
-                std::shared_ptr<Card> currentCard = castCard(cardName); //make sure that it copies
+                std::shared_ptr<Card> currentCard = (m_deck).front();
                 //Play card
                 (*currentCard).applyEncounter(*currentPlayer);
                 //Return card to back of deck
@@ -297,43 +295,4 @@ void printMessages(const bool validName, const bool validJob)
     else if (!validJob) {
         printInvalidClass();
     }
-}
-
-/*std::unique_ptr<Card> castCard(Card& currentCard) 
-{
-    try {
-        currentCard = dynamic_cast<Barfight&>(currentCard);
-    } catch(std::bad_cast&) {}
-    try {
-        currentCard = dynamic_cast<Dragon&>(currentCard);
-    } catch(std::bad_cast&) {}
-    try {
-        currentCard = dynamic_cast<Fairy&>(currentCard);
-    } catch(std::bad_cast&) {}
-    try {
-        currentCard = dynamic_cast<Goblin&>(currentCard);
-    } catch(std::bad_cast&) {}
-    try {
-        currentCard = dynamic_cast<Merchant&>(currentCard);
-    } catch(std::bad_cast&) {}
-    try {
-        currentCard = dynamic_cast<Pitfall&>(currentCard);
-    } catch(std::bad_cast&) {}
-    try {
-        currentCard = dynamic_cast<Treasure&>(currentCard);
-    } catch(std::bad_cast&) {}
-    try {
-        currentCard = dynamic_cast<Vampire&>(currentCard);
-    } catch(std::bad_cast&) {}
-    std::map<std::string, std::unique_ptr<Card>(*)()> cardDictionary = createCardDictionary();
-    std::unique_ptr<Card> ptrCurrentCard(cardDictionary[cardName]());
-    return ptrCurrentCard;
-}*/
-
-std::unique_ptr<Card> castCard(const std::string& cardName) 
-{
-    //Initiate card dictionary
-    std::map<std::string, std::unique_ptr<Card>(*)()> cardDictionary = createCardDictionary();
-    std::unique_ptr<Card> ptrCurrentCard(cardDictionary[cardName]());
-    return ptrCurrentCard;
 }
