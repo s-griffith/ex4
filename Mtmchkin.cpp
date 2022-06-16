@@ -29,7 +29,7 @@ Mtmchkin::Mtmchkin(const std::string fileName)
     catch (DeckFileFormatError& e) {
         sourceFile.close();
         throw e;
-    } 
+    }
     catch (std::exception& e) {
         sourceFile.close();
         throw e;
