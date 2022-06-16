@@ -30,8 +30,7 @@ Mtmchkin::Mtmchkin(const std::string fileName)
         sourceFile.close();
         throw e;
     } 
-    catch (std::exception &e) {
-        e.what();
+    catch (std::exception& e) {
         sourceFile.close();
         throw e;
     }
@@ -158,11 +157,11 @@ std::queue<std::shared_ptr<Card>> createDeck(std::ifstream& sourceFile)
     std::map<std::string, std::unique_ptr<Card>(*)()> cardDictionary = createCardDictionary();
     std::queue<std::shared_ptr<Card>> tmpDeck;
     std::string line;
-    int lineCounter = 0;
+    int lineCounter = 1;
     while (std::getline(sourceFile, line)) {
-        lineCounter++;
         //Create card according to given name in file line
         if (cardDictionary.count(line)) {
+            lineCounter++;
             std::unique_ptr<Card> currentCard(cardDictionary[line]());
             tmpDeck.push(std::move(currentCard));
         }
