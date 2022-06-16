@@ -1,6 +1,5 @@
 #include "Rogue.h"
 
-//Constructor
 Rogue::Rogue(const std::string givenName) :
     Player(givenName)
 {}
@@ -8,8 +7,7 @@ Rogue::Rogue(const std::string givenName) :
 //Returns the player's job
 std::string Rogue::getJob() const
 {
-    std::string job("Rogue");
-    return job;
+    return "Rogue";
 }
 
 //Override Player method - adds double the given amount of coins to the rogue's purse

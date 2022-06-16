@@ -3,9 +3,21 @@
 
 #include "Player.h"
 
+/*
+ *  Rogue Player Class:
+ *  This class represents a single Rogue.
+ *  Players of this type receive double the loot.
+*/
 class Rogue : public Player {
 public:
-    //Constructor
+
+    /*
+     * C'tor of Rogue class
+     *
+     * @param name - The name of the player
+     * @return
+     *      A new instance of Rogue.
+    */
     Rogue(const std::string givenName);
 
     /*

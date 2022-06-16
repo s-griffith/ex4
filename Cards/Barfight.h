@@ -35,6 +35,11 @@ public:
     Barfight(const Barfight&) = default;
 
     /*
+     * Assignment Operator of Barfight class
+    */
+    Barfight& operator=(const Barfight& other) = default;
+
+    /*
      * Handling the player's applyEncounter with a Barfight card:
      *
      * @param player - The player.

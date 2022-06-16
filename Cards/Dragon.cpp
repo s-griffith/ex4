@@ -1,13 +1,14 @@
 #include "Dragon.h"
 
-//Constructor
+//----------------------------------Dragon Class Member Functions----------------------------------
+
 Dragon::Dragon()
 {
     m_force = DRAGON_FORCE;
     m_loot = DRAGON_LOOT;
 }
 
-//Apply Encounter Function
+//Handles a player's encounter with a dragon during the game
 void Dragon::applyEncounter(Player& player) const
 {
     bool win = (player.getAttackStrength() >= m_force);
@@ -22,7 +23,7 @@ void Dragon::applyEncounter(Player& player) const
     }
 }
 
-//Print info function
+//Prints Dragon card information
 void Dragon::printInfo(std::ostream &os) const
 {
     bool isDragon = true;
@@ -31,11 +32,15 @@ void Dragon::printInfo(std::ostream &os) const
     printEndOfCardDetails(os);
 }
 
+//Returns the name of the card as a string
 std::string Dragon::getName() const
 {
     return "Dragon";
 }
 
+//----------------------------------Dragon Class Non-Member Function----------------------------------
+
+//Overrides operator << for seamless printing
 std::ostream& operator<<(std::ostream& os, const Dragon& card)
 {
     card.Dragon::printInfo(os);

@@ -36,6 +36,11 @@ public:
     Dragon(const Dragon&) = default;
 
     /*
+     * Assignment Operator of Dragon class
+    */
+    Dragon& operator=(const Dragon& other) = default;
+
+    /*
      * Handling the player's applyEncounter with a Dragon card:
      *
      * @param player - The player.

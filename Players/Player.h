@@ -5,16 +5,17 @@
 #include <string>
 
 /*
- *  Player:
+ *  Player Class:
  *  This class represents a single player in the game.
 */
-
 class Player {
 public:
 
-    //Constant value for the maximum level a player can achieve
-    //Default values for the maximum HP amount and the default force
-    //Starting values for the number of coins and player level
+    /*
+     * Constant value for the maximum level a player can achieve
+     * Default values for the maximum HP amount and the default force
+     * Starting values for the number of coins and player level
+    */
     static const int MAX_LEVEL = 10;
     static const int DEFAULT_MAX_HP = 100;
     static const int DEFAULT_FORCE = 5;
@@ -26,8 +27,6 @@ public:
      * C'tor of Player class
      *
      * @param name - The name of the player
-     * @param HP - Starting amount of health points, between [0, maxHP], default is 100
-     * @param force - Starting force, default is 5
      * @return
      *      A new instance of Player.
     */

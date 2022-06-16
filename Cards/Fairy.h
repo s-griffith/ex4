@@ -30,9 +30,14 @@ public:
     ~Fairy() = default;
 
     /*
-     * Fairy has no logically changeable data, so we'll forbid the use of a copy constructor.
+     * Copy Constructor of Fairy class
     */
     Fairy(const Fairy&) = default;
+
+    /*
+     * Assignment Operator of Fairy class
+    */
+    Fairy& operator=(const Fairy& other) = default;
 
     /*
      * Handling the player's applyEncounter with a Fairy card:

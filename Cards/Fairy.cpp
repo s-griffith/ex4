@@ -1,20 +1,22 @@
 #include "Fairy.h"
 
-//Apply Encounter Function
+//Handles a player's encounter with a fairy during the game
 void Fairy::applyEncounter(Player& player) const
 {   
     bool isWizard = true;
+    //Check if the player is a wizard:
     try {
         player =  dynamic_cast<Wizard&>(player);
     } catch(const std::bad_cast&) {
         isWizard = false;
     }
     if (isWizard) {
-        player.heal(HP_GAIN); //assuming player has a specific overridden function for wizards, bc hp needs to be doubled
+        player.heal(HP_GAIN);
     }
     printFairyMessage(isWizard);
 }
 
+//Returns the name of the card as a string
 std::string Fairy::getName() const
 {
     return "Fairy";

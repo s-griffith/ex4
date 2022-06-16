@@ -3,9 +3,21 @@
 
 #include "Player.h"
 
+/*
+ *  Wizard Player Class:
+ *  This class represents a single Wizard.
+ *  Players of this type heal twice as fast.
+*/
 class Wizard : public Player {
 public:
-    //Constructor
+
+    /*
+     * Constructor of Wizard class
+     *
+     * @param name - the player's name
+     * @return
+     *      A new instance of Wizard
+    */
     Wizard(const std::string givenName);
 
     /*

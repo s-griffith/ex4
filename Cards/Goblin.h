@@ -35,6 +35,11 @@ public:
     Goblin(const Goblin&) = default;
 
     /*
+     * Assignment Operator of Goblin class
+    */
+    Goblin& operator=(const Goblin& other) = default;
+
+    /*
      * Gets a string representing the card type:
      *
      * @return

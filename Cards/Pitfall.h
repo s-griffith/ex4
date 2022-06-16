@@ -30,9 +30,14 @@ public:
     ~Pitfall() = default;
 
     /*
-     * Pitfall has no logically changeable data, so we'll forbid the use of a copy constructor.
+     * Copy Constructor of Pitfall class
     */
     Pitfall(const Pitfall&) = default;
+
+    /*
+     * Assignment Operator of Pitfall class
+    */
+    Pitfall& operator=(const Pitfall& other) = default;
 
     /*
      * Handling the player's applyEncounter with a Pitfall card:

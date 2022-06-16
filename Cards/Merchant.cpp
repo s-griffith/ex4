@@ -1,9 +1,8 @@
 #include "Merchant.h"
 
-#include <iostream>
+//----------------------------------Merchant Class Member Functions----------------------------------
 
-//On Piazza - they wrote that everything prints to std::cout
-//Need to catch exceptions from getline and stoi functions. Check this.
+//Handles a player's encounter with a merchant during the game
 void Merchant::applyEncounter(Player& player) const
 {
     printMerchantInitialMessageForInteractiveEncounter(std::cout, player.getName(), player.getCoins());
@@ -13,17 +12,19 @@ void Merchant::applyEncounter(Player& player) const
     bool validInput = true;
     do {
         validInput = true;
+        //Receieve input from the user:
         try {
             std::getline(std::cin, initialInput);
             input = std::stoi(initialInput);
         } catch (std::exception&){
             validInput = false;
         }
+        //Check if the input is valid:
         if (!validInput || (input != 0 && input != 1 && input != 2)) {
             printInvalidInput();
         }
     }  while (!validInput || (input != 0 && input != 1 && input != 2));
-
+    //Act according to the input received:
     if (input == 1 && player.pay(HEALTH_POTION_COST)) {
         player.heal(HEALTH_POTION);
         cost = HEALTH_POTION_COST;
@@ -43,6 +44,7 @@ void Merchant::applyEncounter(Player& player) const
     printMerchantSummary(std::cout, player.getName(), input, cost);
 }
 
+//Returns the name of the card as a string
 std::string Merchant::getName() const
 {
     return "Merchant";

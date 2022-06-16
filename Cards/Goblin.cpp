@@ -1,6 +1,5 @@
 #include "Goblin.h"
 
-//Constructor
 Goblin::Goblin()
 {
     m_force = GOBLIN_FORCE;
@@ -8,6 +7,7 @@ Goblin::Goblin()
     m_loot = GOBLIN_LOOT;
 }
 
+//Returns the name of the card as a string
 std::string Goblin::getName() const
 {
     return "Goblin";

@@ -3,9 +3,20 @@
 
 #include "Player.h"
 
+/*
+ *  Fighter Player Class:
+ *  This class represents a single Fighter.
+ *  Players of this type have double the force.
+*/
 class Fighter : public Player {
 public:
-    //Constructor
+    /*
+     * Constructor of Fighter class
+     *
+     * @param name - the player's name
+     * @return
+     *      A new instance of Fighter
+    */
     Fighter(const std::string givenName);
 
     /*
@@ -21,7 +32,7 @@ public:
     *      the calculated attach strength
     */
     int getAttackStrength() const override;
-
+    
     /*
      * Here we are explicitly telling the compiler to use the default methods
      *      for the copy constructor, destructor and the override of the "=" operator

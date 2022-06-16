@@ -6,17 +6,16 @@ int validateHP(int givenMaxHP);
 int validateForce(int givenForce);
 //--------------------------------------------------------------------------------
 
+//--------------------------------Player Class Member Functions--------------------------------
 
-//Constructor for player
-Player::Player(const std::string givenName)
-{
-    m_name = givenName;
-    m_level = STARTING_LEVEL;
-    m_force = DEFAULT_FORCE;
-    m_hp = DEFAULT_MAX_HP;
-    m_coins = DEFAULT_COINS;
-    m_maxHP = DEFAULT_MAX_HP;
-}
+Player::Player(const std::string givenName) :
+    m_name(givenName),
+    m_level(STARTING_LEVEL),
+    m_force(DEFAULT_FORCE),
+    m_hp(DEFAULT_MAX_HP),
+    m_coins(DEFAULT_COINS),
+    m_maxHP(DEFAULT_MAX_HP)
+{}
 
 //Increases the player's level, until maximum level (10) is reached
 void Player::levelUp()
@@ -81,8 +80,8 @@ void Player::damage(const int decreaseHP)
     }
 }
 
-//Checks if the player's Health Points has reached 0
-//Return true if it has, otherwise return false
+//Checks if the player's Health Points have reached 0
+//Returns true if it has. Otherwise, returns false.
 bool Player::isKnockedOut() const
 {
     if (m_hp == 0) {
@@ -100,7 +99,7 @@ void Player::addCoins(const int increaseCoins)
 }
 
 //Decreases the player's coins by the requested amount.
-//Return true if the payment was completed successfully, otherwise return false.
+//Returns true if the payment was completed successfully. Otherwise, returns false.
 bool Player::pay(const int decreaseCoins)
 {
     if (decreaseCoins <= 0) {
@@ -119,7 +118,9 @@ int Player::getAttackStrength() const
     return (m_level + m_force);
 }
 
-//Print players details
+//--------------------------------Player Class Non-Member Functions--------------------------------
+
+//Overrides the << operator for seamless printing
 std::ostream& operator<<(std::ostream& os, const Player& currentPlayer)
 {
 
@@ -130,7 +131,7 @@ std::ostream& operator<<(std::ostream& os, const Player& currentPlayer)
 
 //--------------------------------Helper Functions--------------------------------
 
-//Validates the given maximum Health Point value from input
+//Validates the given maximum Health Points value from input
 int validateHP(int givenMaxHP)
 {
     if (givenMaxHP <= 0) {

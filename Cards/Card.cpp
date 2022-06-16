@@ -3,17 +3,20 @@
 
 //----------------------------------Card Class Functions----------------------------------
 
+//Prints general card details
 void Card::printInfo(std::ostream &os) const
 {
     printCardDetails(os, this->getName());
     printEndOfCardDetails(os);
 }
 
+//An empty function that prevents the Card class from being abstract
 void Card::applyEncounter(Player& player) const
 {}
 
 //----------------------------------Card Class Non-Member Function----------------------------------
 
+//Overrides the << operator to allow seamless printing
 std::ostream& operator<<(std::ostream& os, const Card& card)
 {
     card.printInfo(os);
@@ -23,6 +26,7 @@ std::ostream& operator<<(std::ostream& os, const Card& card)
 
 //----------------------------------MonsterCards Class Functions----------------------------------
 
+//Prints the details specific to monster cards
 void MonsterCards::printInfo(std::ostream &os) const
 {
     bool isDragon = false;
@@ -31,6 +35,7 @@ void MonsterCards::printInfo(std::ostream &os) const
     printEndOfCardDetails(os);
 }
 
+//Handles a player's encounter with a monster during the game
 void MonsterCards::applyEncounter(Player& player) const 
 {
     bool win = (player.getAttackStrength() >= m_force);
@@ -46,8 +51,9 @@ void MonsterCards::applyEncounter(Player& player) const
 }
 
 
-//----------------------------------MonsterCards Class Functions----------------------------------
+//----------------------------------MonsterCards Class Non-Member Function----------------------------------
 
+//Overrides the << operator to allow seamless printing
 std::ostream& operator<<(std::ostream& os, const MonsterCards& card)
 {
     card.MonsterCards::printInfo(os);

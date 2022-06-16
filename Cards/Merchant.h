@@ -3,6 +3,7 @@
 
 #include "Card.h"
 #include "../Players/Player.h"
+#include <iostream>
 
 /*
  *  Merchant Card Class:
@@ -32,9 +33,14 @@ public:
     ~Merchant() = default;
 
     /*
-     * Merchant has no logically changeable data, so we'll forbid the use of a copy constructor.
+     * Copy Constructor of Merchant class
     */
     Merchant(const Merchant&) = default;
+
+    /*
+     * Assignment Operator of Merchant class
+    */
+    Merchant& operator=(const Merchant& other) = default;
 
     /*
      * Handling the player's applyEncounter with a Merchant card:

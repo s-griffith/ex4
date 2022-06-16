@@ -5,8 +5,6 @@
 #include "../Players/Player.h"
 #include "../utilities.h"
 
-//Check if they want us to create operator << for printing
-
 /*
  *  Card Class:
  *  This class represents a single card in the game.
@@ -23,10 +21,18 @@ public:
     Card() = default;
 
     /*
-     * Here we are explicitly telling the compiler to use the default methods
+     * Copy Constructor of the Card class
     */
     Card(const Card&) = default;
+
+    /*
+     * Destructor of the Card class
+    */
     virtual ~Card() = default;
+
+    /*
+     * Assignment Operator of the Card class
+    */
     Card& operator=(const Card& other) = default;
 
     /*
@@ -47,6 +53,14 @@ public:
     virtual void printInfo(std::ostream &os) const;
 
     /*
+     * Gets a string representing the card type:
+     *
+     * @return
+     *      string
+    */
+    virtual std::string getName() const =0; 
+    
+    /*
      * Overrides the operator << for printing card data:
      *
      * @param os - The output path
@@ -55,14 +69,6 @@ public:
      *      os
     */
     friend std::ostream& operator<<(std::ostream& os, const Card& card);
-
-    /*
-     * Gets a string representing the card type:
-     *
-     * @return
-     *      string
-    */
-    virtual std::string getName() const =0;
 };
 
 /*
@@ -78,7 +84,7 @@ public:
      * @return
      *      A new instance of MonsterCards with no appropriated values.
     */
-    MonsterCards() = default; //Check that there is no pre-set default monster card
+    MonsterCards() = default;
 
     /*
      * Destructor of MonsterCards class
@@ -89,6 +95,11 @@ public:
      * Copy constructor of MonsterCards class
     */
     MonsterCards(const MonsterCards&) = default;
+
+    /*
+     * Assignment Operator of MonsterCards class
+    */
+    MonsterCards& operator=(const MonsterCards& other) = default;
 
     /*
      * Handling the player's applyEncounter with a general MonsterCards card:

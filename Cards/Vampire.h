@@ -35,6 +35,11 @@ public:
     Vampire(const Vampire&) = default;
 
     /*
+     * Assignment Operator of Vampire class
+    */
+    Vampire& operator=(const Vampire& other) = default;
+
+    /*
      * Handling the player's applyEncounter with a Vampire card:
      *
      * @param player - The player.

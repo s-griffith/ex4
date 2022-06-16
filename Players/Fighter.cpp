@@ -1,15 +1,13 @@
 #include "Fighter.h"
 
-//Constructor
 Fighter::Fighter(const std::string givenName) :
     Player(givenName)
 {}
 
-//Returns the player's job
+//Returns the player's job as a string
 std::string Fighter::getJob() const
 {
-    std::string job("Fighter");
-    return job;
+    return "Fighter";
 }
 
 //Override Player method - Return the attack strength = player's force * 2 + player's level

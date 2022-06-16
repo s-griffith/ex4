@@ -29,9 +29,14 @@ public:
     ~Treasure() = default;
 
     /*
-     * Treasure has no logically changeable data, so we'll forbid the use of a copy constructor.
+     * Copy Constructor of Treasure class
     */  
     Treasure(const Treasure&) = default;
+
+    /*
+     * Assignment Operator of Treasure class
+    */
+    Treasure& operator=(const Treasure& other) = default;
 
     /*
      * Handling the player's applyEncounter with a Treasure card:

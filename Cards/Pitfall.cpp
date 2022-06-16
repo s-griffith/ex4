@@ -1,9 +1,10 @@
 #include "Pitfall.h"
 
-//Apply Encounter Function
+//Handle's a player's encounter with a pitfall card during the game
 void Pitfall::applyEncounter(Player& player) const
 {
     bool isRogue = true;
+    //Check if the player is a rogue:
     try {
         player = dynamic_cast<Rogue&>(player);
     } catch (std::bad_cast&) {
@@ -15,6 +16,7 @@ void Pitfall::applyEncounter(Player& player) const
     printPitfallMessage(isRogue);
 }
 
+//Returns the card name as a string
 std::string Pitfall::getName() const
 {
     return "Pitfall";

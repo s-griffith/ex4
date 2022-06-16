@@ -1,6 +1,5 @@
 #include "Vampire.h"
 
-//Constructor
 Vampire::Vampire() 
 {
     m_force = VAMPIRE_FORCE;
@@ -8,7 +7,7 @@ Vampire::Vampire()
     m_loot = VAMPIRE_LOOT;
 }
 
-//Apply Encounter Function
+//Handles a player's encounter with a vampire during the game
 void Vampire::applyEncounter(Player& player) const 
 {
     bool win = (player.getAttackStrength() >= m_force);
@@ -24,6 +23,7 @@ void Vampire::applyEncounter(Player& player) const
     }
 }
 
+//Returns the name of the card as a string
 std::string Vampire::getName() const
 {
     return "Vampire";
