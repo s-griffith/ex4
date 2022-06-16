@@ -1,6 +1,11 @@
 #include "../Mtmchkin.h"
 #include <iostream>
 
+/* 
+ * The main initializes a game using the cards in the file deck.txt.
+ * The rounds are played until all players have either won or lost.
+ * Any exceptions thrown throughout gameplay are printed to the screen.
+*/
 int main() 
 {
     std::string deck = "deck.txt";
