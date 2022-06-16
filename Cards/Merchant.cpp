@@ -1,29 +1,18 @@
 #include "Merchant.h"
 
+//--------------------------Helper Function--------------------------
+int receiveInput();
+//--------------------------------------------------------------------
+
+
 //----------------------------------Merchant Class Member Functions----------------------------------
 
 //Handles a player's encounter with a merchant during the game
 void Merchant::applyEncounter(Player& player) const
 {
     printMerchantInitialMessageForInteractiveEncounter(std::cout, player.getName(), player.getCoins());
-    std::string initialInput = "0";
     int cost = 0;
-    int input = 0;
-    bool validInput = true;
-    do {
-        validInput = true;
-        //Receieve input from the user:
-        try {
-            std::getline(std::cin, initialInput);
-            input = std::stoi(initialInput);
-        } catch (std::exception&){
-            validInput = false;
-        }
-        //Check if the input is valid:
-        if (!validInput || (input != 0 && input != 1 && input != 2)) {
-            printInvalidInput();
-        }
-    }  while (!validInput || (input != 0 && input != 1 && input != 2));
+    int input = receiveInput();
     //Act according to the input received:
     if (input == 1 && player.pay(HEALTH_POTION_COST)) {
         player.heal(HEALTH_POTION);
@@ -48,4 +37,29 @@ void Merchant::applyEncounter(Player& player) const
 std::string Merchant::getName() const
 {
     return "Merchant";
+}
+
+//----------------------------------Merchant Class Helper Function----------------------------------
+
+//Requests input from the user in a loop until valid input is received.
+int receiveInput()
+{
+    bool validInput = true;
+    int input = 0;
+    std::string initialInput = "0";
+    do {
+        validInput = true;
+        //Receieve input from the user:
+        try {
+            std::getline(std::cin, initialInput);
+            input = std::stoi(initialInput);
+        } catch (std::exception&){
+            validInput = false;
+        }
+        //Check if the input is valid:
+        if (!validInput || (input != 0 && input != 1 && input != 2)) {
+            printInvalidInput();
+        }
+    }  while (!validInput || (input != 0 && input != 1 && input != 2));
+    return input;    
 }
