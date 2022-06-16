@@ -10,12 +10,13 @@ int validateForce(int givenForce);
 
 Player::Player(const std::string givenName) :
     m_name(givenName),
-    m_level(STARTING_LEVEL),
-    m_force(DEFAULT_FORCE),
-    m_hp(DEFAULT_MAX_HP),
-    m_coins(DEFAULT_COINS),
-    m_maxHP(DEFAULT_MAX_HP)
-{}
+    m_level(STARTING_LEVEL)
+{
+    m_force = DEFAULT_FORCE;
+    m_hp = DEFAULT_MAX_HP;
+    m_coins = DEFAULT_COINS;
+    m_maxHP = DEFAULT_MAX_HP;
+}
 
 //Increases the player's level, until maximum level (10) is reached
 void Player::levelUp()
