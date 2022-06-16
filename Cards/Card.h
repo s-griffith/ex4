@@ -125,9 +125,9 @@ protected:
      * m_loot: The coins won by a player after defeating the monster in battle
      * m_hpLossOnDefeat: The HP damage done by a monster if the player is defeated in battle
     */
-    int m_force;    
-    int m_loot;
-    int m_hpLossOnDefeat;
+    int m_force = 0;    
+    int m_loot = 0;
+    int m_hpLossOnDefeat = 0;
 };
 
 #endif //EX2_Card_H
