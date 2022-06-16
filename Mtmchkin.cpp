@@ -4,7 +4,7 @@
 template <class Derived> //----------------------------------------------------------------------------------------------not sure if this line is needed up here
 std::unique_ptr<Card> creationFactory();
 std::map<std::string, std::unique_ptr<Card>(*)()> createCardDictionary();
-std::queue<std::shared_ptr<Card>> createDeck(std::ifstream& sourceFile);
+std::queue<std::unique_ptr<Card>> createDeck(std::ifstream& sourceFile);
 std::list<std::shared_ptr<Player>> createPlayers();
 int receiveTeamSize();
 void receivePlayer(std::string& name, std::string& job);
@@ -58,11 +58,9 @@ void Mtmchkin::playRound()
                 //Print player's turn
                 printTurnStartMessage((*currentPlayer).getName());
                 //Draw card
-                std::shared_ptr<Card> currentCard = (m_deck).front();
-                //Play card
-                (*currentCard).applyEncounter(*currentPlayer);
+                (*(m_deck.front())).applyEncounter(*currentPlayer);
                 //Return card to back of deck
-                m_deck.push(m_deck.front());
+                m_deck.push(std::move(m_deck.front()));
                 m_deck.pop();
                 //If the player has reached max level, the player has won the game!
                 if ((*currentPlayer).getLevel() == Player::MAX_LEVEL) {
@@ -150,19 +148,19 @@ std::map<std::string, std::unique_ptr<Card>(*)()> createCardDictionary()
 }
 
 //Create queue of cards
-std::queue<std::shared_ptr<Card>> createDeck(std::ifstream& sourceFile)
+std::queue<std::unique_ptr<Card>> createDeck(std::ifstream& sourceFile)
 {
     //Initiate card dictionary
     std::map<std::string, std::unique_ptr<Card>(*)()> cardDictionary = createCardDictionary();
-    std::queue<std::shared_ptr<Card>> tmpDeck;
+    std::queue<std::unique_ptr<Card>> tmpDeck;
     std::string line;
     int lineCounter = 1;
     while (std::getline(sourceFile, line)) {
         //Create card according to given name in file line
         if (cardDictionary.count(line)) {
             lineCounter++;
-            std::unique_ptr<Card> currentCard(cardDictionary[line]());
-            tmpDeck.push(std::move(currentCard));
+            //std::unique_ptr<Card> currentCard(cardDictionary[line]());
+            tmpDeck.push(std::move(cardDictionary[line]()));
         }
         //If file has invalid name in one of the lines, throw appropriate error
         else {

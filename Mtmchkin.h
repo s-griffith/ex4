@@ -75,7 +75,7 @@ public:
     int getNumberOfRounds() const;
 
 private:
-    std::queue<std::shared_ptr<Card>> m_deck;
+    std::queue<std::unique_ptr<Card>> m_deck;
     std::list<std::shared_ptr<Player>> m_players;
     std::vector<std::shared_ptr<Player>> m_winners;
     std::vector<std::shared_ptr<Player>> m_losers;
