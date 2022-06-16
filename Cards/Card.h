@@ -106,7 +106,7 @@ public:
      * @return
      *      void
     */
-    void printInfo(std::ostream &os) const override;
+    virtual void printInfo(std::ostream &os) const override;
 
     /*
      * Overrides the operator << for printing monster card data:

@@ -59,6 +59,8 @@ public:
      *      string
     */
     std::string getName() const override;
+    friend std::ostream& operator<<(std::ostream& os, const Dragon& card);
+
 
 };
 

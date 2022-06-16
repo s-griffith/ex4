@@ -20,7 +20,7 @@
 
 #include <iostream>
 
-int main() {
+/*int main() {
     //-------------------------Printing & Construction Tests-------------------------
     std::cout << "-------------------------Printing & Construction Tests-------------------------" << std::endl;
 
@@ -56,7 +56,7 @@ int main() {
     merchCard.applyEncounter(Tal);
 
 //Fighter Tests
-   /* barfightCard.applyEncounter(Waldo);
+    barfightCard.applyEncounter(Waldo);
     goblinCard.applyEncounter(Waldo);
     std::cout << Waldo << std::endl;
     Waldo.pay(10);
@@ -68,10 +68,10 @@ int main() {
     std::cout << Waldo << std::endl;
     int attackStrength = Waldo.getAttackStrength();
     std::cout << "Waldo's attack strength: " << attackStrength << std::endl;
-    dragonCard.applyEncounter(Waldo); */
+    dragonCard.applyEncounter(Waldo); 
 
 //Rogue Tests
-   /* goblinCard.applyEncounter(Freddy);
+    goblinCard.applyEncounter(Freddy);
     std::cout << Freddy << std::endl;
     Freddy.pay(10);
     std::cout << Freddy << std::endl;
@@ -81,7 +81,7 @@ int main() {
     vampCard.applyEncounter(Freddy);
     std::cout << Freddy << std::endl;
     pitfallCard.applyEncounter(Freddy);
-    dragonCard.applyEncounter(Freddy); */
+    dragonCard.applyEncounter(Freddy); 
 
     vampCard.applyEncounter(Tal);
     std::cout << Tal << std::endl;
@@ -98,7 +98,7 @@ int main() {
     std::cout << Tal << std::endl;
     dragonCard.applyEncounter(Tal);
 
-  /*  dragonCard.applyEncounter(Waldo);
+    dragonCard.applyEncounter(Waldo);
     fairyCard.applyEncounter(Freddy);
 
     goblinCard.applyEncounter(Tal);
@@ -126,7 +126,82 @@ int main() {
 
     std::cout << Tal << std::endl;
 
-    vampCard.applyEncounter(Tal);*/
+    vampCard.applyEncounter(Tal);
+
+
+
+    return 0;
+} */
+
+
+void run_test(std::function<bool()> test, std::string test_name)
+{
+    if(!test()){
+        std::cout<< test_name <<" FAILED."<<std::endl;
+        std::cout << std::endl;
+        return;
+    }
+    std::cout<<test_name<<" SUCCEEDED."<<std::endl;
+    std::cout << std::endl;
+
+}
+
+bool cardsPrintsTest()
+{
+    
+    Barfight junta;
+    Dragon mushu;
+    Fairy alizaMalek;
+    Goblin goblin;
+    Merchant pizzaHut;
+    Pitfall moedB;
+    Treasure factor;
+    Vampire dracula;
+    std::cout << junta << std::endl << mushu << std::endl << alizaMalek   
+                    << std::endl << goblin  << std::endl << pizzaHut
+                    << std::endl << moedB  << std::endl << factor
+                    << std::endl << dracula;
+    return true;
+}
+
+
+int main(int argc, char *argv[]) {
+    const int NUMBER_OF_TESTS = 14;
+    std::function<bool()> tests[NUMBER_OF_TESTS] = {
+        cardsPrintsTest,
+       /* testCard,
+        dragonDenTest,
+        goblinCaveTest,
+        vampireLairTest,
+        nonMostersTest,
+        badFormatStartTest,
+        badFormatTest,
+        noFileTest,
+        badSizeTest,
+        roundLimitTest,
+        allTenTest,
+        badPlayerInputTest,
+        merchantInputTest */
+    };
+
+    if (argc < 2) {
+        for (int i = 0; i < 1; ++i) {
+            run_test(tests[i], "Test " + std::to_string(i + 1));
+        }
+    } else {
+        int idx = -1;
+        try {
+            idx = std::stoi(argv[1]) - 1;
+        } catch (const std::invalid_argument &e) {
+            std::cerr << "Error: invalid argument: " << argv[1] << std::endl;
+            return 1;
+        }
+        if (idx < 0 || idx > NUMBER_OF_TESTS - 1) {
+            std::cerr << "Error: index out of range: " << argv[1] << std::endl;
+            return 1;
+        }
+        run_test(tests[idx], "Test " + std::to_string(idx + 1));
+    }
 
     return 0;
 }

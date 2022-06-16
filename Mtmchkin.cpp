@@ -16,6 +16,7 @@ void printMessages(const bool validName, const bool validJob);
 
 Mtmchkin::Mtmchkin(const std::string fileName)
 {
+    printStartGameMessage();
     //Check if file name valid, throw appropriate error if not
     std::ifstream sourceFile(fileName);
     if (!sourceFile || !sourceFile.is_open()) {
@@ -177,8 +178,6 @@ std::queue<std::shared_ptr<Card>> createDeck(std::ifstream& sourceFile)
 std::list<std::shared_ptr<Player>> createPlayers()
 {
     std::list<std::shared_ptr<Player>> tmpPlayers;
-    //Print opening game message
-    printStartGameMessage();
     //Receives and validates team size from user
     int teamSize = receiveTeamSize();
     std::string name;

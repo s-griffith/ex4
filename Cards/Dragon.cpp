@@ -28,9 +28,16 @@ void Dragon::printInfo(std::ostream &os) const
     bool isDragon = true;
     printCardDetails(os, this->getName());
     printMonsterDetails(os, m_force, m_hpLossOnDefeat, m_loot, isDragon);
+    printEndOfCardDetails(os);
 }
 
 std::string Dragon::getName() const
 {
     return "Dragon";
+}
+
+std::ostream& operator<<(std::ostream& os, const Dragon& card)
+{
+    card.Dragon::printInfo(os);
+    return os;
 }

@@ -6,6 +6,7 @@
 void Card::printInfo(std::ostream &os) const
 {
     printCardDetails(os, this->getName());
+    printEndOfCardDetails(os);
 }
 
 void Card::applyEncounter(Player& player) const
@@ -27,6 +28,7 @@ void MonsterCards::printInfo(std::ostream &os) const
     bool isDragon = false;
     printCardDetails(os, this->getName());
     printMonsterDetails(os, m_force, m_hpLossOnDefeat, m_loot, isDragon);
+    printEndOfCardDetails(os);
 }
 
 void MonsterCards::applyEncounter(Player& player) const 
