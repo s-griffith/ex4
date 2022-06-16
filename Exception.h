@@ -34,19 +34,17 @@ class DeckFileFormatError : public std::exception {
 public:
     //Constructor
     DeckFileFormatError(const int lineNum) :
-        m_lineNumber(lineNum)
-    {}
+        m_message("Deck File Error: File format error in line ")
+    {
+        m_message += std::to_string(lineNum);
+    }
 
     const char* what() const noexcept override
     {
-        std::string tmpLineString = "Deck File Error: File format error in line " + std::to_string(m_lineNumber);
-        const char* tmpLineChar = tmpLineString.c_str();
-        return tmpLineChar;
-        /*std::string line = std::to_string(m_lineNumber);
-        return (const char*) "Deck File Error: File format error in line " + line.c_str();*/
+        return m_message.data();
     }
 private:
-    int m_lineNumber;
+    std::string m_message;
 };
 
 #endif //EX4_EXCEPTION_H
