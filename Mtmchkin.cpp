@@ -1,10 +1,10 @@
 #include "Mtmchkin.h"
 
 //------------------------------------------Additional Functions-------------------------------------
-template <class Derived> //----------------------------------------------------------------------------------------------not sure if this line is needed up here
 std::unique_ptr<Card> creationFactory();
 std::map<std::string, std::unique_ptr<Card>(*)()> createCardDictionary();
 std::queue<std::unique_ptr<Card>> createDeck(std::ifstream& sourceFile);
+std::unique_ptr<Gang> addGang(int& lineCounter, std::ifstream& sourceFile);
 std::list<std::shared_ptr<Player>> createPlayers();
 int receiveTeamSize();
 void receivePlayer(std::string& name, std::string& job);
@@ -13,7 +13,12 @@ bool checkJob(const std::string& givenJob);
 void printMessages(const bool validName, const bool validJob);
 //---------------------------------------------------------------------------------------------------
 
+//------------------------------------------Static Variables-----------------------------------------
+static const int MIN_PLAYERS = 2;
+static const int MAX_PLAYERS = 6;
+//---------------------------------------------------------------------------------------------------
 
+//Constructor
 Mtmchkin::Mtmchkin(const std::string fileName)
 {
     printStartGameMessage();
@@ -22,7 +27,7 @@ Mtmchkin::Mtmchkin(const std::string fileName)
     if (!sourceFile || !sourceFile.is_open()) {
         throw DeckFileNotFound();
     }
-    //Create card deck
+    //Create card deck and throw appropriate errors if needed
     try {
         m_deck = std::move(createDeck(sourceFile));
     }
@@ -38,20 +43,23 @@ Mtmchkin::Mtmchkin(const std::string fileName)
     if (m_deck.size() < 5) {
         throw DeckFileInvalidSize();
     }
+    //Create players, throw appropriate errors if needed
     try {
-        //Create players + initiate number of rounds in game
         m_players = std::move(createPlayers());
     } catch (std::exception &e) {
         sourceFile.close();
         throw e;
     }
-    m_numRounds = 1;
+    //Set game rounds
+    m_numRounds = 0;
 }
 
+// Play the next Round of the game - according to the instruction in the exercise document.
 void Mtmchkin::playRound()
 {
     if (!isGameOver()) {
-        //Print that another round has started
+        //Add round to game and print that a round has started
+        m_numRounds++;
         printRoundStartMessage(m_numRounds);
         for (std::shared_ptr<Player>& currentPlayer : m_players) {
             if (((*currentPlayer).getLevel() != Player::MAX_LEVEL) && (!(*currentPlayer).isKnockedOut())) {
@@ -73,14 +81,13 @@ void Mtmchkin::playRound()
             }
 
         }
-        //Count number of rounds completed in game
-        m_numRounds++;
     }
-    if (isGameOver()) { //-----------------------------------------------------------------------------------------------Maybe needs to be inside if(), depends if this function is called on a game that is over and the message is required or not
+    if (isGameOver()) {
         printGameEndMessage();
     }
 }
 
+// Prints the leaderBoard of the game at a given stage of the game
 void Mtmchkin::printLeaderBoard() const
 {
     printLeaderBoardStartMessage();
@@ -128,11 +135,12 @@ int Mtmchkin::getNumberOfRounds() const
 template <class Derived>
 std::unique_ptr<Card> creationFactory()
 {
-    std::unique_ptr<Card> currentCard(new Derived);//-----------------------------------------------------------------Possible memory leak, internet says no but need to double-check
+    std::unique_ptr<Card> currentCard(new Derived);
     //Move card (not copy)
     return currentCard;
 }
 
+//Create dictionary of cards: between their name (string) and a factory function to create the cards
 std::map<std::string, std::unique_ptr<Card>(*)()> createCardDictionary() 
 {
     std::map<std::string, std::unique_ptr<Card>(*)()> cardDictionary;
@@ -147,7 +155,7 @@ std::map<std::string, std::unique_ptr<Card>(*)()> createCardDictionary()
     return cardDictionary;
 }
 
-//Create queue of cards
+//Create queue of cards from file input
 std::queue<std::unique_ptr<Card>> createDeck(std::ifstream& sourceFile)
 {
     //Initiate card dictionary
@@ -155,11 +163,16 @@ std::queue<std::unique_ptr<Card>> createDeck(std::ifstream& sourceFile)
     std::queue<std::unique_ptr<Card>> tmpDeck;
     std::string line;
     int lineCounter = 1;
-    while (std::getline(sourceFile, line)) {
-        //Create card according to given name in file line
-        if (cardDictionary.count(line)) {
+    while (sourceFile.eof() != true) {
+        std::getline(sourceFile, line);
+        //*Bonus* If there is a gang in the deck, create separately
+        if (line == "Gang") {
             lineCounter++;
-            //std::unique_ptr<Card> currentCard(cardDictionary[line]());
+            tmpDeck.push(std::move(addGang(lineCounter, sourceFile)));
+        }
+        //Create card according to given name in file line
+        else if (cardDictionary.count(line)) {
+            lineCounter++;
             tmpDeck.push(std::move(cardDictionary[line]()));
         }
         //If file has invalid name in one of the lines, throw appropriate error
@@ -167,11 +180,36 @@ std::queue<std::unique_ptr<Card>> createDeck(std::ifstream& sourceFile)
             throw DeckFileFormatError(lineCounter);
         }
     }
-    //Move queue (not copy)
-    //return std::move(tmpDeck);
     return tmpDeck;
 }
 
+std::unique_ptr<Gang> addGang(int& lineCounter, std::ifstream& sourceFile)
+{
+    //Initiate card dictionary
+    std::map<std::string, std::unique_ptr<Card>(*)()> cardDictionary = createCardDictionary();
+    std::vector<MonsterCards> tmpMonsterGang;
+    std::string line;
+    while ((sourceFile.eof() != true) && (line != "EndGang")) {
+        std::getline(sourceFile, line);
+        //Add card to gang according to monster type
+        if ((line == "Vampire") || (line == "Goblin") || (line == "Dragon")) {
+            lineCounter++;
+            tmpMonsterGang.push_back(*(std::move(cardDictionary[line]())));
+        }
+        //If there was an invalid line (or non-monster card), throw appropriate error
+        else if (line != "EndGang") {
+            throw DeckFileFormatError(lineCounter);
+        }
+    }
+    //If the file ended without and "EndGang", throw appropriate error
+    if (line != "EndGang") {
+        throw DeckFileFormatError(lineCounter);
+    }
+    lineCounter++;
+    //Create unique ptr to gang
+    std::unique_ptr<Gang> newGang(new Gang(tmpMonsterGang));
+    return newGang;
+}
 
 //Create queue of shared pointers to players
 std::list<std::shared_ptr<Player>> createPlayers()
@@ -185,7 +223,6 @@ std::list<std::shared_ptr<Player>> createPlayers()
         receivePlayer(name, job);
         //Create smart pointer to player according to job
         std::shared_ptr<Player> ptrNewPlayer;
-        //-----------------------------------------------Possible memory leak, internet says no but need to double-check
         if (job == "Fighter") {
             ptrNewPlayer.reset(new Fighter(name));
         }
@@ -198,8 +235,6 @@ std::list<std::shared_ptr<Player>> createPlayers()
         //Add pointer to queue
         tmpPlayers.push_back(ptrNewPlayer);
     }
-    //Move queue (not copy)
-    //return std::move(tmpPlayers);
     return tmpPlayers;
 }
 
@@ -221,11 +256,11 @@ int receiveTeamSize()
             validInput = false;
         }
         //If input was invalid (not an int or not in valid team size range) ask for new input
-        if ((!validInput) || (teamSize < 2) || (teamSize > 6)) {
+        if ((!validInput) || (teamSize < MIN_PLAYERS) || (teamSize > MAX_PLAYERS)) {
             printInvalidTeamSize();
             printEnterTeamSizeMessage();
         }
-    } while ((!validInput) || (teamSize < 2) || (teamSize > 6)); //--------------------------------------------------Maybe need static const values
+    } while ((!validInput) || (teamSize < MIN_PLAYERS) || (teamSize > MAX_PLAYERS));
     return teamSize;
 }
 
@@ -241,6 +276,7 @@ void receivePlayer(std::string& name, std::string& job)
     bool validJob = true;
     do {
         validInput = true;
+        //Ask user for team size until correct size is entered, throw necessary errors
         try {
             std::getline(std::cin, line);
             name = line.substr(0, line.find(delimiter));
@@ -250,10 +286,9 @@ void receivePlayer(std::string& name, std::string& job)
         catch (std::exception&)  {
             validInput  = false;
         }
-        //Check input
+        //Validate input, if invalid print appropriate messages
         validName = checkName(name);
         validJob = checkJob(job);
-
         if ((!validInput) || (!validName) || (!validJob)) {
             printMessages(validName, validJob);
         }
@@ -279,13 +314,13 @@ bool checkName(const std::string& givenName)
 //Validates the job from input
 bool checkJob(const std::string& givenJob)
 {
-    if ((givenJob.compare("Fighter") != 0) && (givenJob.compare("Rogue") != 0) && (givenJob.compare("Wizard") != 0)) {
+    if ((givenJob != "Fighter") && (givenJob != "Rogue") && (givenJob != "Wizard")) {
         return false;
     }
     return true;
 }
 
-//Prints relevant message
+//Prints relevant message if player input was invalid
 void printMessages(const bool validName, const bool validJob)
 {
     if (!validName) {

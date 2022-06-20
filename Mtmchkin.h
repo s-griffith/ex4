@@ -22,7 +22,6 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include <limits>
 #include <map>
 #include <queue>
 #include <list>
@@ -75,6 +74,7 @@ public:
     int getNumberOfRounds() const;
 
 private:
+    //Card deck, list of Players, winners and losers and the number of rounds
     std::queue<std::unique_ptr<Card>> m_deck;
     std::list<std::shared_ptr<Player>> m_players;
     std::vector<std::shared_ptr<Player>> m_winners;
