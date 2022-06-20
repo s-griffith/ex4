@@ -7,6 +7,7 @@
 #include "Vampire.h"
 #include <vector>
 #include <memory>
+#include <map>
 
 
 class Gang : public Card {
@@ -19,7 +20,7 @@ public:
      * @return
      *      A new instance of Gang with the appropriate values.
     */
-    Gang(const std::vector<MonsterCards> &cards);
+    Gang(const std::vector<std::string> &cards);
 
     /*
      * Destructor of Gang class
@@ -64,7 +65,7 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Gang& cards);
 
 private:
-    std::vector<MonsterCards> m_cards;
+    std::vector<std::unique_ptr<MonsterCards>> m_cards;
 };
 
 #endif //EX4_GANG_H

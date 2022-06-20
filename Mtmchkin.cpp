@@ -4,6 +4,8 @@
 std::unique_ptr<Card> creationFactory();
 std::map<std::string, std::unique_ptr<Card>(*)()> createCardDictionary();
 std::queue<std::unique_ptr<Card>> createDeck(std::ifstream& sourceFile);
+std::unique_ptr<MonsterCards> creationMonsterFactory();
+std::map<std::string, std::unique_ptr<MonsterCards>(*)()> createMonsterCardDictionary();
 std::unique_ptr<Gang> addGang(int& lineCounter, std::ifstream& sourceFile);
 std::list<std::shared_ptr<Player>> createPlayers();
 int receiveTeamSize();
@@ -183,18 +185,18 @@ std::queue<std::unique_ptr<Card>> createDeck(std::ifstream& sourceFile)
     return tmpDeck;
 }
 
+
+
 std::unique_ptr<Gang> addGang(int& lineCounter, std::ifstream& sourceFile)
 {
-    //Initiate card dictionary
-    std::map<std::string, std::unique_ptr<Card>(*)()> cardDictionary = createCardDictionary();
-    std::vector<std::unique_ptr<MonsterCards>> tmpMonsterGang;
+    std::vector<std::string> tmpMonsterGang;
     std::string line;
     while ((sourceFile.eof() != true) && (line != "EndGang")) {
         std::getline(sourceFile, line);
         //Add card to gang according to monster type
         if ((line == "Vampire") || (line == "Goblin") || (line == "Dragon")) {
             lineCounter++;
-            tmpMonsterGang.push_back(std::move(cardDictionary[line]()));
+            tmpMonsterGang.push_back(line);
         }
         //If there was an invalid line (or non-monster card), throw appropriate error
         else if (line != "EndGang") {
@@ -207,7 +209,7 @@ std::unique_ptr<Gang> addGang(int& lineCounter, std::ifstream& sourceFile)
     }
     lineCounter++;
     //Create unique ptr to gang
-    std::unique_ptr<Gang> newGang(new Gang(std::move(tmpMonsterGang)));
+    std::unique_ptr<Gang> newGang(new Gang(tmpMonsterGang));
     return newGang;
 }
 

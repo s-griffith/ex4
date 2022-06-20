@@ -13,6 +13,7 @@
 #include "Cards/Pitfall.h"
 #include "Cards/Treasure.h"
 #include "Cards/Vampire.h"
+#include "Cards/Gang.h"
 
 #include "Players/Player.h"
 #include "Players/Fighter.h"
