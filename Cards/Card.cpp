@@ -50,6 +50,20 @@ void MonsterCards::applyEncounter(Player& player) const
     }
 }
 
+int MonsterCards::getForce() const
+{
+    return m_force;
+}
+
+int MonsterCards::getDamage() const
+{
+    return m_hpLossOnDefeat;
+}
+
+std::string MonsterCards::getName() const
+{
+    return "MonsterCards";
+} 
 
 //----------------------------------MonsterCards Class Non-Member Function----------------------------------
 
