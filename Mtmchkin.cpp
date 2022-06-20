@@ -53,15 +53,13 @@ Mtmchkin::Mtmchkin(const std::string fileName)
         throw e;
     }
     //Set game rounds
-    m_numRounds = 0;
+    m_numRounds = 1;
 }
 
 // Play the next Round of the game - according to the instruction in the exercise document.
 void Mtmchkin::playRound()
 {
     if (!isGameOver()) {
-        //Add round to game and print that a round has started
-        m_numRounds++;
         printRoundStartMessage(m_numRounds);
         for (std::shared_ptr<Player>& currentPlayer : m_players) {
             if (((*currentPlayer).getLevel() != Player::MAX_LEVEL) && (!(*currentPlayer).isKnockedOut())) {
@@ -83,6 +81,8 @@ void Mtmchkin::playRound()
             }
 
         }
+        //Add round to game
+        m_numRounds++;
     }
     if (isGameOver()) {
         printGameEndMessage();
@@ -165,8 +165,7 @@ std::queue<std::unique_ptr<Card>> createDeck(std::ifstream& sourceFile)
     std::queue<std::unique_ptr<Card>> tmpDeck;
     std::string line;
     int lineCounter = 1;
-    while (sourceFile.eof() != true) {
-        std::getline(sourceFile, line);
+    while (std::getline(sourceFile, line)) {
         //*Bonus* If there is a gang in the deck, create separately
         if (line == "Gang") {
             lineCounter++;

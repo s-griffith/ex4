@@ -65,6 +65,11 @@ std::string MonsterCards::getName() const
     return "MonsterCards";
 }
 
+int MonsterCards::getLoot() const
+{
+    return m_loot;
+}
+
 //----------------------------------MonsterCards Class Non-Member Function----------------------------------
 
 //Overrides the << operator to allow seamless printing

@@ -125,6 +125,9 @@ public:
 
     virtual std::string getName() const override; 
 
+    int getLoot() const;
+
+
     /*
      * Overrides the operator << for printing monster card data:
      *

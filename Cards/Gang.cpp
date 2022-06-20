@@ -16,17 +16,26 @@ Gang::Gang(const std::vector<std::string> &cards)
 void Gang::applyEncounter(Player& player) const
 {
     bool win = true;
+    std::string monsterName;
     for (const std::unique_ptr<MonsterCards> &currentCard : m_cards) {
         if (win) {
             win = (player.getAttackStrength() >= (*currentCard).getForce());
-            (*currentCard).applyEncounter(player);
+            if (win) {
+                player.addCoins((*currentCard).getLoot());
+            }
         }
-        if (!win) {
+        if (!win && !(player.isKnockedOut())) {
             player.damage((*currentCard).getDamage());
         }
+        monsterName = (*currentCard).getName();
     }
+    
     if (win) {
+        printWinBattle(player.getName(), (*this).getName());
         player.levelUp();
+    }
+    else {
+        printLossBattle(player.getName(), monsterName);
     }
 }
 
