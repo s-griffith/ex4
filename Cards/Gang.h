@@ -61,7 +61,13 @@ public:
      *      string
     */
     std::string getName() const override;
-    
+
+    /*
+    * Sends to output the string representation of the gang
+    *
+    * @return
+    *      os stream (for chaining)
+    */
     friend std::ostream& operator<<(std::ostream& os, const Gang& cards);
 
 private:
