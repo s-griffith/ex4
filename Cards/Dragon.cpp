@@ -6,21 +6,7 @@ Dragon::Dragon()
 {
     m_force = DRAGON_FORCE;
     m_loot = DRAGON_LOOT;
-}
-
-//Handles a player's encounter with a dragon during the game
-void Dragon::applyEncounter(Player& player) const
-{
-    bool win = (player.getAttackStrength() >= m_force);
-    if (win) {
-        player.levelUp();
-        player.addCoins(m_loot);
-        printWinBattle(player.getName(), this->getName());
-    }
-    else {
-        player.damage(Player::DEFAULT_MAX_HP);
-        printLossBattle(player.getName(), this->getName());
-    }
+    m_hpLossOnDefeat = Player::DEFAULT_MAX_HP;
 }
 
 //Prints Dragon card information
