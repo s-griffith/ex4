@@ -123,7 +123,7 @@ public:
 
     int getDamage() const;
 
-    virtual std::string getName() const = 0; 
+    virtual std::string getName() const override; 
 
     /*
      * Overrides the operator << for printing monster card data:

@@ -63,7 +63,7 @@ int MonsterCards::getDamage() const
 std::string MonsterCards::getName() const
 {
     return "MonsterCards";
-} 
+}
 
 //----------------------------------MonsterCards Class Non-Member Function----------------------------------
 
