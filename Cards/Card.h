@@ -58,7 +58,7 @@ public:
      * @return
      *      string
     */
-    virtual std::string getName() const =0; 
+    virtual std::string getName() const =0;
     
     /*
      * Overrides the operator << for printing card data:
@@ -118,6 +118,12 @@ public:
      *      void
     */
     virtual void printInfo(std::ostream &os) const override;
+
+    int getForce() const;
+
+    int getDamage() const;
+
+    virtual std::string getName() const override; 
 
     /*
      * Overrides the operator << for printing monster card data:
