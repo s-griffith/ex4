@@ -10,6 +10,12 @@
 
 class DeckFileNotFound : public std::exception {
 public:
+    /*
+    * Provide information regarding what the error is
+    *
+    * @return
+    *      const char*
+    */
     const char* what() const noexcept override
     {
         return "Deck File Error: File not found";
@@ -21,6 +27,12 @@ public:
 
 class DeckFileInvalidSize : public std::exception {
 public:
+    /*
+    * Provide information regarding what the error is
+    *
+    * @return
+    *      const char*
+    */
     const char* what() const noexcept override
     {
         return "Deck File Error: Deck size is invalid";
@@ -36,9 +48,16 @@ public:
     DeckFileFormatError(const int lineNum) :
         m_message("Deck File Error: File format error in line ")
     {
+        //Add to message the line number in the file where the error was found
         m_message += std::to_string(lineNum);
     }
 
+    /*
+    * Provide information regarding what the error is
+    *
+    * @return
+    *      const char*
+    */
     const char* what() const noexcept override
     {
         return m_message.data();
