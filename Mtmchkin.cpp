@@ -207,7 +207,7 @@ std::unique_ptr<Gang> addGang(int& lineCounter, std::ifstream& sourceFile)
     }
     lineCounter++;
     //Create unique ptr to gang
-    std::unique_ptr<Gang> newGang(new Gang(tmpMonsterGang));
+    std::unique_ptr<Gang> newGang(new Gang(std::move(tmpMonsterGang)));
     return newGang;
 }
 
