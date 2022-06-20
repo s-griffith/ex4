@@ -187,14 +187,14 @@ std::unique_ptr<Gang> addGang(int& lineCounter, std::ifstream& sourceFile)
 {
     //Initiate card dictionary
     std::map<std::string, std::unique_ptr<Card>(*)()> cardDictionary = createCardDictionary();
-    std::vector<MonsterCards> tmpMonsterGang;
+    std::vector<std::unique_ptr<MonsterCards>> tmpMonsterGang;
     std::string line;
     while ((sourceFile.eof() != true) && (line != "EndGang")) {
         std::getline(sourceFile, line);
         //Add card to gang according to monster type
         if ((line == "Vampire") || (line == "Goblin") || (line == "Dragon")) {
             lineCounter++;
-            tmpMonsterGang.push_back(*(std::move(cardDictionary[line]())));
+            tmpMonsterGang.push_back(std::move(cardDictionary[line]()));
         }
         //If there was an invalid line (or non-monster card), throw appropriate error
         else if (line != "EndGang") {
