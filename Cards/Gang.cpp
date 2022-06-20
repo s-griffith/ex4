@@ -18,24 +18,23 @@ void Gang::applyEncounter(Player& player) const
     bool win = true;
     std::string monsterName;
     for (const std::unique_ptr<MonsterCards> &currentCard : m_cards) {
+        monsterName = (*currentCard).getName();
         if (win) {
             win = (player.getAttackStrength() >= (*currentCard).getForce());
             if (win) {
                 player.addCoins((*currentCard).getLoot());
             }
         }
-        if (!win && !(player.isKnockedOut())) {
-            player.damage((*currentCard).getDamage());
+        if (!win) {
+            if (!(player.isKnockedOut())) {
+                player.damage((*currentCard).getDamage());
+            }
+            printLossBattle(player.getName(), monsterName);
         }
-        monsterName = (*currentCard).getName();
     }
-    
     if (win) {
         printWinBattle(player.getName(), (*this).getName());
         player.levelUp();
-    }
-    else {
-        printLossBattle(player.getName(), monsterName);
     }
 }
 
