@@ -168,7 +168,8 @@ std::queue<std::unique_ptr<Card>> createDeck(std::ifstream& sourceFile)
         }
     }
     //Move queue (not copy)
-    return std::move(tmpDeck);
+    //return std::move(tmpDeck);
+    return tmpDeck;
 }
 
 
@@ -198,7 +199,8 @@ std::list<std::shared_ptr<Player>> createPlayers()
         tmpPlayers.push_back(ptrNewPlayer);
     }
     //Move queue (not copy)
-    return std::move(tmpPlayers);
+    //return std::move(tmpPlayers);
+    return tmpPlayers;
 }
 
 //Accept team size from command line until given valid argument
