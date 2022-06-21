@@ -7,7 +7,8 @@ void Barfight::applyEncounter(Player& player) const
     //Check if the player given is a fighter:
     try {
         player = dynamic_cast<Fighter&>(player);
-    } catch (std::bad_cast&) {
+    }
+    catch (std::bad_cast&) {
         isFighter = false;
     }
     if (!isFighter) {

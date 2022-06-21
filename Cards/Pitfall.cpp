@@ -7,7 +7,8 @@ void Pitfall::applyEncounter(Player& player) const
     //Check if the player is a rogue:
     try {
         player = dynamic_cast<Rogue&>(player);
-    } catch (std::bad_cast&) {
+    }
+    catch (std::bad_cast&) {
         isRogue = false;
     }
     if (!isRogue) {

@@ -7,7 +7,8 @@ void Fairy::applyEncounter(Player& player) const
     //Check if the player is a wizard:
     try {
         player =  dynamic_cast<Wizard&>(player);
-    } catch(const std::bad_cast&) {
+    }
+    catch(const std::bad_cast&) {
         isWizard = false;
     }
     if (isWizard) {

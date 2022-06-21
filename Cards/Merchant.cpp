@@ -53,7 +53,8 @@ int receiveInput()
         try {
             std::getline(std::cin, initialInput);
             input = std::stoi(initialInput);
-        } catch (std::exception&){
+        }
+        catch (std::exception&){
             validInput = false;
         }
         //Check if the input is valid:

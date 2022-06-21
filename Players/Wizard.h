@@ -28,7 +28,8 @@ public:
     std::string getJob() const override;
 
     /*
-     * Override Player method - Increases the player's health points by double the given amount, until maxHP reached
+     * Override Player method -
+     *      Increases the player's health points by double the given amount, until maxHP reached
      * @return
      *      void
     */
