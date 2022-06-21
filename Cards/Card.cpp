@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Card.h"
 
-//----------------------------------Card Class Functions----------------------------------
+//----------------------------------Card Class Functions-------------------------------------------
 
 //Prints general card details
 void Card::printInfo(std::ostream &os) const
@@ -14,7 +14,7 @@ void Card::printInfo(std::ostream &os) const
 void Card::applyEncounter(Player& player) const
 {}
 
-//----------------------------------Card Class Non-Member Function----------------------------------
+//----------------------------------Card Class Non-Member Function---------------------------------
 
 //Overrides the << operator to allow seamless printing
 std::ostream& operator<<(std::ostream& os, const Card& card)
@@ -24,7 +24,7 @@ std::ostream& operator<<(std::ostream& os, const Card& card)
 }
 
 
-//----------------------------------MonsterCards Class Functions----------------------------------
+//----------------------------------MonsterCards Class Functions-----------------------------------
 
 //Prints the details specific to monster cards
 void MonsterCards::printInfo(std::ostream &os) const
@@ -70,7 +70,7 @@ int MonsterCards::getLoot() const
     return m_loot;
 }
 
-//----------------------------------MonsterCards Class Non-Member Function----------------------------------
+//----------------------------------MonsterCards Class Non-Member Function-------------------------
 
 //Overrides the << operator to allow seamless printing
 std::ostream& operator<<(std::ostream& os, const MonsterCards& card)

@@ -1,12 +1,12 @@
 #include "Player.h"
 #include "../utilities.h"
 
-//--------------------------------Helper Functions--------------------------------
+//---------------------------------------Helper Functions------------------------------------------
 int validateHP(int givenMaxHP);
 int validateForce(int givenForce);
-//--------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 
-//--------------------------------Player Class Member Functions--------------------------------
+//--------------------------------Player Class Member Functions------------------------------------
 
 //Constructor for Player
 Player::Player(const std::string givenName) :
@@ -129,7 +129,7 @@ std::ostream& operator<<(std::ostream& os, const Player& currentPlayer)
     return os;
 }
 
-//--------------------------------Helper Functions--------------------------------
+//---------------------------------------Helper Functions------------------------------------------
 
 //Validates the given maximum Health Points value from input
 int validateHP(int givenMaxHP)

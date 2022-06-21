@@ -1,6 +1,6 @@
 #include "Mtmchkin.h"
 
-//------------------------------------------Additional Functions-------------------------------------
+//----------------------------------------Additional Functions-------------------------------------
 std::unique_ptr<Card> creationFactory();
 std::map<std::string, std::unique_ptr<Card>(*)()> createCardDictionary();
 std::queue<std::unique_ptr<Card>> createDeck(std::ifstream& sourceFile);
@@ -11,12 +11,12 @@ void receivePlayer(std::string& name, std::string& job);
 bool checkName(const std::string& givenName);
 bool checkJob(const std::string& givenJob);
 void printMessages(const bool validName, const bool validJob);
-//---------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 
-//------------------------------------------Static Variables-----------------------------------------
+//----------------------------------------Static Variables-----------------------------------------
 static const int MIN_PLAYERS = 2;
 static const int MAX_PLAYERS = 6;
-//---------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 
 //Constructor
 Mtmchkin::Mtmchkin(const std::string fileName)
@@ -130,7 +130,7 @@ int Mtmchkin::getNumberOfRounds() const
     return m_numRounds-1;
 }
 
-//------------------------------------------Additional Functions-------------------------------------
+//----------------------------------------Additional Functions-------------------------------------
 
 //Factory function for creating cards according to the appropriate derived class
 template <class Derived>

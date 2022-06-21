@@ -24,7 +24,7 @@ std::string Dragon::getName() const
     return "Dragon";
 }
 
-//----------------------------------Dragon Class Non-Member Function----------------------------------
+//----------------------------------Dragon Class Non-Member Function-------------------------------
 
 //Overrides operator << for seamless printing
 std::ostream& operator<<(std::ostream& os, const Dragon& card)

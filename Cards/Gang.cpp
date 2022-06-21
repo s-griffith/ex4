@@ -1,10 +1,10 @@
 #include "Gang.h"
 #include <iostream>
 
-//------------------------------------------Additional Functions-------------------------------------
+//------------------------------------------Additional Functions-----------------------------------
 std::map<std::string, std::unique_ptr<MonsterCards>(*)()> createMonsterCardDictionary();
 std::unique_ptr<MonsterCards> creationMonsterFactory();
-//---------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------
 
 //Constructor of gang
 Gang::Gang(const std::vector<std::string> &cards)
@@ -70,7 +70,7 @@ std::ostream& operator<<(std::ostream& os, const Gang& cards)
     return os;
 }
 
-//------------------------------------------Additional Functions-------------------------------------
+//------------------------------------------Additional Functions-----------------------------------
 
 //Factory function for creating cards according to the appropriate derived class
 template <class Derived>

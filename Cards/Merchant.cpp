@@ -1,11 +1,11 @@
 #include "Merchant.h"
 
-//--------------------------Helper Function--------------------------
+//---------------------------------------Helper Function-------------------------------------------
 int receiveInput();
 //--------------------------------------------------------------------
 
 
-//----------------------------------Merchant Class Member Functions----------------------------------
+//----------------------------------Merchant Class Member Functions--------------------------------
 
 //Handles a player's encounter with a merchant during the game
 void Merchant::applyEncounter(Player& player) const
@@ -39,7 +39,7 @@ std::string Merchant::getName() const
     return "Merchant";
 }
 
-//----------------------------------Merchant Class Helper Function----------------------------------
+//----------------------------------Merchant Class Helper Function---------------------------------
 
 //Requests input from the user in a loop until valid input is received.
 int receiveInput()
