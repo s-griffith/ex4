@@ -26,8 +26,8 @@ void Merchant::applyEncounter(Player& player) const
         cost = input;
     }
     else {
-        input = 0;
-        cost = input;
+        //input = 0;
+        cost = 0; //same comment as in noGang git file.............................................................................................
         printMerchantInsufficientCoins(std::cout);
     }
     printMerchantSummary(std::cout, player.getName(), input, cost);
