@@ -8,6 +8,7 @@ int validateForce(int givenForce);
 
 //--------------------------------Player Class Member Functions--------------------------------
 
+//Constructor for Player
 Player::Player(const std::string givenName) :
     m_name(givenName),
     m_level(STARTING_LEVEL)
@@ -81,8 +82,7 @@ void Player::damage(const int decreaseHP)
     }
 }
 
-//Checks if the player's Health Points have reached 0
-//Returns true if it has. Otherwise, returns false.
+//Checks if the player's Health Points have reached 0, returns true if it has. Otherwise, returns false.
 bool Player::isKnockedOut() const
 {
     if (m_hp == 0) {
@@ -124,7 +124,6 @@ int Player::getAttackStrength() const
 //Overrides the << operator for seamless printing
 std::ostream& operator<<(std::ostream& os, const Player& currentPlayer)
 {
-
     printPlayerDetails(os, currentPlayer.m_name, currentPlayer.getJob(), currentPlayer.m_level,
                        currentPlayer.m_force, currentPlayer.m_hp, currentPlayer.m_coins);
     return os;

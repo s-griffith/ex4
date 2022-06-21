@@ -5,7 +5,6 @@
 #include <string>
 #include <exception>
 
-
 //----------------------------------Class DeckFileNotFound-----------------------------------------
 
 class DeckFileNotFound : public std::exception {
@@ -14,14 +13,13 @@ public:
     * Provide information regarding what the error is
     *
     * @return
-    *      const char*
+    *      const char* - description of exception
     */
     const char* what() const noexcept override
     {
         return "Deck File Error: File not found";
     }    
 };
-
 
 //----------------------------------Class DeckFileInvalidSize--------------------------------------
 
@@ -31,14 +29,13 @@ public:
     * Provide information regarding what the error is
     *
     * @return
-    *      const char*
+    *      const char* - description of exception
     */
     const char* what() const noexcept override
     {
         return "Deck File Error: Deck size is invalid";
     }
 };
-
 
 //----------------------------------Class DeckFileFormatError--------------------------------------
 
@@ -56,7 +53,7 @@ public:
     * Provide information regarding what the error is
     *
     * @return
-    *      const char*
+    *      const char* - description of exception
     */
     const char* what() const noexcept override
     {

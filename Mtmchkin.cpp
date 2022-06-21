@@ -4,8 +4,6 @@
 std::unique_ptr<Card> creationFactory();
 std::map<std::string, std::unique_ptr<Card>(*)()> createCardDictionary();
 std::queue<std::unique_ptr<Card>> createDeck(std::ifstream& sourceFile);
-std::unique_ptr<MonsterCards> creationMonsterFactory();
-std::map<std::string, std::unique_ptr<MonsterCards>(*)()> createMonsterCardDictionary();
 std::unique_ptr<Gang> addGang(int& lineCounter, std::ifstream& sourceFile);
 std::list<std::shared_ptr<Player>> createPlayers();
 int receiveTeamSize();
@@ -81,7 +79,7 @@ void Mtmchkin::playRound()
             }
 
         }
-        //Add round to game
+        //Count number of rounds completed in game
         m_numRounds++;
     }
     if (isGameOver()) {
@@ -138,7 +136,6 @@ template <class Derived>
 std::unique_ptr<Card> creationFactory()
 {
     std::unique_ptr<Card> currentCard(new Derived);
-    //Move card (not copy)
     return currentCard;
 }
 
@@ -184,8 +181,7 @@ std::queue<std::unique_ptr<Card>> createDeck(std::ifstream& sourceFile)
     return tmpDeck;
 }
 
-
-
+//Read from file to create a gang of monsters
 std::unique_ptr<Gang> addGang(int& lineCounter, std::ifstream& sourceFile)
 {
     std::vector<std::string> tmpMonsterGang;

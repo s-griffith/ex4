@@ -1,5 +1,6 @@
 #include "Fighter.h"
 
+//Constructor for Fighter
 Fighter::Fighter(const std::string givenName) :
     Player(givenName)
 {}

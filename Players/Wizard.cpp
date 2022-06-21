@@ -1,5 +1,6 @@
 #include "Wizard.h"
 
+//Constructor of Wizard
 Wizard::Wizard(const std::string givenName) :
     Player(givenName)
 {}
@@ -10,7 +11,7 @@ std::string Wizard::getJob() const
     return "Wizard";
 }
 
-// Override Player method - Increases the player's health points by double the given amount, until maxHP reached
+//Override Player method - Increases the player's health points by double the given amount, until maxHP reached
 void Wizard::heal(const int increaseHP)
 {
     int doubleIncrease = increaseHP * 2;

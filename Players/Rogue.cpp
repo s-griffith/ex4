@@ -1,5 +1,6 @@
 #include "Rogue.h"
 
+//Constructor of Rogue
 Rogue::Rogue(const std::string givenName) :
     Player(givenName)
 {}
@@ -18,4 +19,3 @@ void Rogue::addCoins(const int increaseCoins)
         m_coins += (newIncrease);
     }
 }
-
