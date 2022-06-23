@@ -27,6 +27,7 @@ void Merchant::applyEncounter(Player& player) const
     }
     else {
         cost = 0;
+        input = cost;
         printMerchantInsufficientCoins(std::cout);
     }
     printMerchantSummary(std::cout, player.getName(), input, cost);
