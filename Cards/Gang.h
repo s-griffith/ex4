@@ -33,7 +33,7 @@ public:
     /*
      * Copy constructor of Gang class
     */  
-    Gang(const Gang&) = default;
+    Gang(const Gang& original);
 
     /*
      * Assignment Operator of Gang class

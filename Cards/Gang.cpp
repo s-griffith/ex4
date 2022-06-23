@@ -19,6 +19,20 @@ Gang::Gang(const std::vector<std::string> &cards)
     }
 }
 
+Gang::Gang(const Gang& original)
+{
+    std::vector<std::string> cards;
+    for (const std::unique_ptr<MonsterCards> &currentCard : original.m_cards) {
+        cards.push_back((*currentCard).getName());
+    }
+    //Initiate monster card dictionary
+    std::map<std::string, std::unique_ptr<MonsterCards>(*)()> cardDictionary = createMonsterCardDictionary();
+    //Add monster cards to card vector according to the list of card names (validated in Mtmchkin)
+    for (const std::string &line : cards) {
+        this->m_cards.push_back(std::move(cardDictionary[line]()));
+    }
+}
+
 // Handling the player's applyEncounter with a Gang card
 void Gang::applyEncounter(Player& player) const
 {
