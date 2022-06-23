@@ -181,7 +181,7 @@ std::queue<std::unique_ptr<Card>> createDeck(std::ifstream& sourceFile)
         }
         //If file has invalid name in one of the lines, throw appropriate error
         else {
-            if (lineCounter == 1 && line == "") {
+            if (lineCounter == 1 && line == "" && sourceFile.eof()) {
                 throw DeckFileInvalidSize();
             }
             else {
