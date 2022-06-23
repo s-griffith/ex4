@@ -38,6 +38,7 @@ void Gang::applyEncounter(Player& player) const
 {
     bool win = true;
     std::string monsterName;
+    int buff = -1;
     //Go through monsters in gang
     for (const std::unique_ptr<MonsterCards> &currentCard : m_cards) {
         monsterName = (*currentCard).getName();
@@ -50,9 +51,15 @@ void Gang::applyEncounter(Player& player) const
         }
         //Otherwise, receive damage and print battle loss details
         if (!win) {
-            if (!(player.isKnockedOut())) {
-                player.damage((*currentCard).getDamage());
+            buff = -1;
+            try {
+                dynamic_cast<Vampire&>(*currentCard);
             }
+            catch (std::bad_cast &e) {
+                buff = 0;
+            }
+            player.buff(buff);
+            player.damage((*currentCard).getDamage());
             printLossBattle(player.getName(), monsterName);
         }
     }
