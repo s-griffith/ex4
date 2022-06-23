@@ -35,6 +35,10 @@ Mtmchkin::Mtmchkin(const std::string fileName)
         sourceFile.close();
         throw e;
     }
+    catch (DeckFileInvalidSize& e) {
+        sourceFile.close();
+        throw e;
+    }
     catch (std::exception& e) {
         sourceFile.close();
         throw e;
@@ -163,7 +167,8 @@ std::queue<std::unique_ptr<Card>> createDeck(std::ifstream& sourceFile)
     std::queue<std::unique_ptr<Card>> tmpDeck;
     std::string line;
     int lineCounter = 1;
-    while (std::getline(sourceFile, line)) {
+    while (!sourceFile.eof()) {
+        std::getline(sourceFile, line);
         //*Bonus* If there is a gang in the deck, create separately
         if (line == "Gang") {
             lineCounter++;
@@ -176,7 +181,12 @@ std::queue<std::unique_ptr<Card>> createDeck(std::ifstream& sourceFile)
         }
         //If file has invalid name in one of the lines, throw appropriate error
         else {
-            throw DeckFileFormatError(lineCounter);
+            if (lineCounter == 1 && line == "\n") {
+                throw DeckFileInvalidSize();
+            }
+            else {
+                throw DeckFileFormatError(lineCounter);
+            }
         }
     }
     return tmpDeck;
