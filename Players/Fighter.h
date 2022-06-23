@@ -35,7 +35,7 @@ public:
     
     /*
      * Here we are explicitly telling the compiler to use the default methods
-     *      for the copy constructor, destructor and the override of the "=" operator
+     * for the copy constructor, destructor and the override of the "=" operator
     */
     Fighter(const Fighter&) = default;
     Fighter& operator=(const Fighter& original) = default;

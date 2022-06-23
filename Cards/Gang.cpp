@@ -6,6 +6,8 @@ std::map<std::string, std::unique_ptr<MonsterCards>(*)()> createMonsterCardDicti
 std::unique_ptr<MonsterCards> creationMonsterFactory();
 //-------------------------------------------------------------------------------------------------
 
+//------------------------------------------Gang Class Member Functions-----------------------------------
+
 //Constructor of gang
 Gang::Gang(const std::vector<std::string> &cards)
 {
@@ -62,6 +64,8 @@ std::string Gang::getName() const
 {
     return "Gang";
 }
+
+//------------------------------------------Gang Class Non-Member Function-----------------------------------
 
 // Sends to output the string representation of the gang
 std::ostream& operator<<(std::ostream& os, const Gang& cards)

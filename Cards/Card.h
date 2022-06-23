@@ -119,12 +119,31 @@ public:
     */
     virtual void printInfo(std::ostream &os) const override;
 
+    /*
+     * Gets the force a MonsterCards card has:
+     *
+     * Receives no parameters.
+     * @return
+     *      int
+    */
     int getForce() const;
 
+    /*
+     * Gets the damage a MonsterCards card can do to a player:
+     *
+     * Receives no parameters.
+     * @return
+     *      int
+    */
     int getDamage() const;
 
-    virtual std::string getName() const override; 
-
+    /*
+     * Gets the loot a MonsterCards card has:
+     *
+     * Receives no parameters.
+     * @return
+     *      int
+    */
     int getLoot() const;
 
 

@@ -29,6 +29,10 @@
 #include <vector>
 #include <memory>
 
+/*
+ *  Mtmchkin Class:
+ *  This class represents a game of Mtmchkin.
+*/
 class Mtmchkin {
 public:
 

@@ -1,6 +1,6 @@
 #include "Merchant.h"
 
-//---------------------------------------Helper Function-------------------------------------------
+//----------------------------Helper Function-------------------------
 int receiveInput();
 //--------------------------------------------------------------------
 
@@ -26,8 +26,7 @@ void Merchant::applyEncounter(Player& player) const
         cost = input;
     }
     else {
-        //input = 0;
-        cost = 0; //same comment as in noGang git file.............................................................................................
+        cost = 0;
         printMerchantInsufficientCoins(std::cout);
     }
     printMerchantSummary(std::cout, player.getName(), input, cost);

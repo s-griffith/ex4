@@ -60,11 +60,6 @@ int MonsterCards::getDamage() const
     return m_hpLossOnDefeat;
 }
 
-std::string MonsterCards::getName() const
-{
-    return "MonsterCards";
-}
-
 int MonsterCards::getLoot() const
 {
     return m_loot;

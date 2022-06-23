@@ -54,9 +54,15 @@ public:
     */
     std::string getName() const override;
     
+    /*
+     * Overrides the operator << for printing monster card data:
+     *
+     * @param os - The output path
+     * @param card - The card
+     * @return
+     *      os
+    */
     friend std::ostream& operator<<(std::ostream& os, const Dragon& card);
-
-
 };
 
 #endif //EX4_DRAGON_H

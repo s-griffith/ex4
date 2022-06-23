@@ -41,11 +41,17 @@ public:
 
 class DeckFileFormatError : public std::exception {
 public:
-    //Constructor
+    /*
+     * Constructor of DeckFileFormatError class
+     *
+     * Receives no parameters.
+     * @return
+     *      A new instance of DeckFileFormatError containing the proper error message.
+    */
     DeckFileFormatError(const int lineNum) :
         m_message("Deck File Error: File format error in line ")
     {
-        //Add to message the line number in the file where the error was found
+        //Add the location (line number) of the error in the file to the message:
         m_message += std::to_string(lineNum);
     }
 
@@ -59,6 +65,7 @@ public:
     {
         return m_message.data();
     }
+
 private:
     std::string m_message;
 };

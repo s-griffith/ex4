@@ -9,7 +9,10 @@
 #include <memory>
 #include <map>
 
-
+/*
+ *  Gang Class:
+ *  This class represents a single Gang of MonsterCards.
+*/
 class Gang : public Card {
 public:
 
